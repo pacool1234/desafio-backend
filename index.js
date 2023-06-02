@@ -11,11 +11,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("./public")); //Necessary to get correct url in frontend
 
-app.use("/users", require("./routes/users"));
-app.use("/bookings", require("./routes/bookings"));
-app.use("/meetings", require("./routes/meetings"));
-app.use("/events", require("./routes/events")); // FALTABA ESTO VALENTI
-
+// app.use("/users", require("./routes/users"));
+app.use("/chats", require("./routes/chats"));
 
 dbConnection();
 
