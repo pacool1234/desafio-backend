@@ -1,4 +1,3 @@
-const User = require("../models/User");
 const UserType = require("../models/UserType");
 
 const UserTypeController = {
@@ -18,11 +17,11 @@ const UserTypeController = {
     // Delete userType
     async delete(req, res) {
         try {
-            const userTypes = await User.findByIdAndDelete(req.params._id);
-            if (!userTypes) {
+            const userType = await UserType.findByIdAndDelete(req.params._id);
+            if (!userType) {
                 return res.status(404).send({ message: "UserType not found" });
             }
-            res.status(201).send({ message: `Deleted userTypes || ${userTypes.name} ||`, userTypes });
+            res.status(201).send({ message: `Deleted userType || ${userType.name} ||`, userType });
         } catch (error) {
             console.error(error);
         }
