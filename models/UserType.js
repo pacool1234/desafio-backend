@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ObjectId = mongoose.SchemaTypes.ObjectId;
+// const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserTypeSchema = new mongoose.Schema({
     name: {
