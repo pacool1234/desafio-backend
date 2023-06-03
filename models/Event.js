@@ -4,7 +4,7 @@ const EventSchema = new mongoose.Schema({
     title: {type: String},
     description: {type: String},
     date: [],
-    time: date,
+    time: Date,
     atendees: [{ type: ObjectId, ref: 'User' }],
     eventTags: [],
     img: {type: String} //multer- upload
