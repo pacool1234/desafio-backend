@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema({
     title: String,
-    descripcion: String,
+    description: String,
     date: [],
     time: date,
-    atendees: [],
+    atendees: [{ type: ObjectId, ref: 'User' }],
     eventTags: [],
-    image: String, //multer
+    img: String, //multer- upload
      }, { timestamps: true }
 );
 
-const Evento = mongoose.model("Evento", EventoSchema);
+const Events = mongoose.model("Event", EventSchema);
 
-module.exports = Evento;
+module.exports = Event;

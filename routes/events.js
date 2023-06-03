@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router()
-const UserTypeController = require('../controllers/EventController');
+const EventController = require('../controllers/EventController');
+const {uploadEventsImg} = require('../middlewares/upload'); 
 
 
-router.post('/create', EventController.create)
-router.delete("/delete/:_id", EventController.delete);
-
+router.post('/create',uploadEventsImg.single('imagen'),EventController.create)
+router.delete('/delete/:_id',EventController.delete)
 
 
 module.exports = router;
