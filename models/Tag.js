@@ -5,6 +5,6 @@ const TagSchema = new mongoose.Schema({
      }, { timestamps: true }
 );
 
-const Tags = mongoose.model("tag", TagSchema);
+const Tag = mongoose.model("tag", TagSchema);
 
 module.exports = Tag;
