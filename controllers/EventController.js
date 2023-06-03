@@ -1,4 +1,4 @@
-const Event = require("../models/Sponsor");
+const Event = require("../models/Event");
 
 const EventController = {
     
