@@ -4,10 +4,9 @@ const EventController = {
     
   async create(req, res) {
     try {
-      // const sponsor = await Sponsor.create(req.body); //v.Jose
       const event = await Event.create({
         ...req.body,
-        imagen: req.file.filename 
+        img: req.file.filename 
       });
       
       res.status(201).send({ message: "EVENT successful created", event });
@@ -33,4 +32,4 @@ const EventController = {
 
 };
 
-module.exports = SponsorController;
+module.exports = EventController;
