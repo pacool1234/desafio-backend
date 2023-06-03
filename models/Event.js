@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const EventSchema = new mongoose.Schema({
-    title: String,
-    description: String,
+    title: {type: String},
+    description: {type: String},
     date: [],
     time: date,
     atendees: [{ type: ObjectId, ref: 'User' }],
     eventTags: [],
-    img: String, //multer- upload
+    img: {type: String} //multer- upload
      }, { timestamps: true }
 );
 
