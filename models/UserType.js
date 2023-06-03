@@ -2,14 +2,9 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserTypeSchema = new mongoose.Schema({
-    userType: {
+    name: {
         type: String,
         required: [true, "Please enter a userType"],
-    },
-   
-    userId: {
-        type: ObjectId,
-        ref: 'User'
     },
 
 }, { timestamps: true });

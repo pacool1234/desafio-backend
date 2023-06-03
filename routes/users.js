@@ -9,6 +9,7 @@ router.post('/register',uploadUserImg.single('img'),UserController.register)
 router.put('/update/:_id',authentication, uploadUserImg.single('img'), UserController.update)
 router.post('/login',UserController.login)
 router.delete('/logout',authentication , UserController.logout)
+router.get('/getAll', authentication, UserController.getAll)
 router.get('/getUser', authentication, UserController.getUser)
 router.get('/confirm/:emailToken', UserController.confirm)
 router.get("/getById/:_id", authentication, UserController.getById);

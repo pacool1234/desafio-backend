@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const UserType = require("../models/UserType");
 
 const transporter = require("../config/nodemailer");
 const bcrypt = require("bcryptjs");
@@ -14,11 +15,15 @@ const UserController = {
       if (req.file) {
         imgPath = req.file.path;
       }
+
+      const userType = await UserType.findById(req.body.userType);
+
       const user = await User.create({
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
         img: imgPath, // Agrega el campo de imagen a la base de datos
+        userType: userType,
       });
 
       const emailToken = jwt.sign(
@@ -63,7 +68,7 @@ const UserController = {
       if (req.file) {
         imgPath = req.file.path;
       }
-
+      const userType = await UserType.findById(req.body.userType);
       const user = await User.findByIdAndUpdate(
         userToUpdateId,
         {
@@ -71,6 +76,7 @@ const UserController = {
           email: req.body.email,
           password: hashedPassword,
           img: imgPath,
+          userType: userType,
         },
         { new: true }
       );
@@ -152,6 +158,17 @@ const UserController = {
     }
   },
 
+  //get all users
+
+  async getAll(req, res, next) {
+    try {
+      const users = await User.find();
+      res.send(users);
+    } catch (error) {
+      next(error);
+    }
+  },
+
   // Endpoint get authenticated user
   async getUser(req, res) {
     try {
@@ -196,6 +213,49 @@ const UserController = {
       next(error);
     }
   },
+
+  async recoverPassword(req, res) {
+    try {
+      const recoverToken = jwt.sign(
+        { email: req.params.email },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "48h",
+        }
+      );
+      const url = "http://localhost:8080/users/resetPassword/" + recoverToken;
+      await transporter.sendMail({
+        to: req.params.email,
+        subject: "Recover Password",
+        html: `<h3> Recover Password </h3>
+      <a href="${url}">Recover Password</a>
+      The link will expire in 48 hours`,
+      });
+      res.send({
+        message: "A recovery email was sent to your email address",
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  async resetPassword(req, res) {
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const recoverToken = req.params.recoverToken;
+      const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
+      await User.findOneAndUpdate(
+        { email: payload.email },
+        { password: hashedPassword }
+      );
+      res.send({ message: "Password changed successfully" });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+
+//NO SE ESTÁN USANDO PERO SE PODRÍAN USAR EN UN FUTURO
 
   //To follow a user
   async follow(req, res) {
@@ -296,45 +356,6 @@ const UserController = {
     }
   },
 
-  async recoverPassword(req, res) {
-    try {
-      const recoverToken = jwt.sign(
-        { email: req.params.email },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "48h",
-        }
-      );
-      const url = "http://localhost:8080/users/resetPassword/" + recoverToken;
-      await transporter.sendMail({
-        to: req.params.email,
-        subject: "Recover Password",
-        html: `<h3> Recover Password </h3>
-      <a href="${url}">Recover Password</a>
-      The link will expire in 48 hours`,
-      });
-      res.send({
-        message: "A recovery email was sent to your email address",
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
-  async resetPassword(req, res) {
-    try {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const recoverToken = req.params.recoverToken;
-      const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
-      await User.findOneAndUpdate(
-        { email: payload.email },
-        { password: hashedPassword }
-      );
-      res.send({ message: "Password changed successfully" });
-    } catch (error) {
-      console.error(error);
-    }
-  },
 };
 
 module.exports = UserController;

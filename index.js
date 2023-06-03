@@ -12,7 +12,9 @@ app.use(cors());
 app.use(express.static("./public")); //Necessary to get correct url in frontend
 
 app.use("/users", require("./routes/users"));
+app.use("/userTypes", require("./routes/userTypes"));
 app.use("/chats", require("./routes/chats"));
+
 
 dbConnection();
 
