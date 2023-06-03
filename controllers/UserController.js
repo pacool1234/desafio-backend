@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const UserType = require("../models/UserType");
+const Degree = require("../models/Degree");
 
 const transporter = require("../config/nodemailer");
 const bcrypt = require("bcryptjs");
@@ -17,13 +18,19 @@ const UserController = {
       }
 
       const userType = await UserType.findById(req.body.userType);
+      const degree = await Degree.findById(req.body.degree);
 
       const user = await User.create({
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
+        age: req.body.age,
+        gender: req.body.gender,
+        linkedIn: req.body.linkedIn,
         img: imgPath, // Agrega el campo de imagen a la base de datos
         userType: userType,
+        degree: degree,
+
       });
 
       const emailToken = jwt.sign(
