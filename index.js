@@ -16,6 +16,7 @@ app.use("/userTypes", require("./routes/userTypes"));
 app.use("/degrees", require("./routes/degrees"));
 app.use("/chats", require("./routes/chats"));
 app.use("/events", require("./routes/events"));
+app.use("/tags", require("./routes/tags"));
 
 
 
