@@ -75,6 +75,8 @@ const UserController = {
       if (req.file) {
         imgPath = req.file.path;
       }
+
+      const degree = await Degree.findById(req.body.degree);
       const userType = await UserType.findById(req.body.userType);
       const user = await User.findByIdAndUpdate(
         userToUpdateId,
@@ -82,8 +84,12 @@ const UserController = {
           username: req.body.username,
           email: req.body.email,
           password: hashedPassword,
+          age: req.body.age,
+          gender: req.body.gender,
+          linkedIn: req.body.linkedIn,
           img: imgPath,
           userType: userType,
+          degree: degree,
         },
         { new: true }
       );
@@ -118,14 +124,14 @@ const UserController = {
       if (!user) {
         return res.status(400).send({ message: "Invalid email or password" });
       }
-      
+
       if (!user.confirmed) {
         return res
           .status(401)
           .send({ message: "It is necessary to confirm your email" });
       }
 
-      
+
       const passwordMatch = await bcrypt.compare(
         req.body.password,
         user.password
@@ -262,7 +268,7 @@ const UserController = {
   },
 
 
-//NO SE ESTÁN USANDO PERO SE PODRÍAN USAR EN UN FUTURO
+  //NO SE ESTÁN USANDO PERO SE PODRÍAN USAR EN UN FUTURO
 
   //To follow a user
   async follow(req, res) {
