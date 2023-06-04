@@ -12,14 +12,14 @@ const EventController = {
       }
 
       const eventTags = await Tag.findById(req.body.eventTags);
-      const attendees = await User.findById(req.body.attendees);
+      // const attendees = await User.findById(req.body.attendees);
 
       const event = await Event.create({
         title: req.body.title,
         description: req.body.description,
         time: req.body.time,
         date: req.body.date,
-        attendees: attendees,
+        // attendees: attendees,
         eventTags: eventTags,
         img: imgPath,
       });
