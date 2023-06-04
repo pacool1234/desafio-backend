@@ -4,9 +4,13 @@ const EventController = {
     
   async create(req, res) {
     try {
+      let imgPath;
+      if (req.file) {
+        imgPath = req.file.path;
+      }
       const event = await Event.create({
         ...req.body,
-        img: req.file.filename 
+        img: imgPath,
       });
       
       res.status(201).send({ message: "EVENT successful created", event });
