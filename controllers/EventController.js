@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Tag = require("../models/Tag");
 
 const EventController = {
-    
+
   async create(req, res) {
     try {
       let imgPath;
@@ -12,18 +12,16 @@ const EventController = {
       }
 
       const eventTags = await Tag.findById(req.body.eventTags);
-      // const attendees = await User.findById(req.body.attendees);
 
       const event = await Event.create({
         title: req.body.title,
         description: req.body.description,
         time: req.body.time,
         date: req.body.date,
-        // attendees: attendees,
         eventTags: eventTags,
         img: imgPath,
       });
-      
+
       res.status(201).send({ message: "EVENT successful created", event });
     } catch (error) {
       console.error(error);
@@ -40,7 +38,7 @@ const EventController = {
       res.send({ event, message: 'EVENT Removed' })
     } catch (error) {
       console.error(error)
-      res.status(500).send({ message: 'There has been a problem deleting the EVENT'})
+      res.status(500).send({ message: 'There has been a problem deleting the EVENT' })
     }
   },
 
