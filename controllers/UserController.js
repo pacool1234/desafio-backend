@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const UserType = require("../models/UserType");
 const Degree = require("../models/Degree");
+const Event = require("../models/Event");
 
 const transporter = require("../config/nodemailer");
 const bcrypt = require("bcryptjs");
@@ -264,6 +265,32 @@ const UserController = {
       res.send({ message: "Password changed successfully" });
     } catch (error) {
       console.error(error);
+    }
+  },
+
+  //event inscription
+  async suscription(req, res) {
+    try {
+      const event = await Event.findById(req.params._id);
+
+      if (event.attendees.includes(req.user._id)) {
+        return res.status(400).send({ message: "You already liked this event" });
+      }
+
+      event.attendees.push(req.user._id);
+      await event.save();
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { suscriptions: req.params._id } },
+        { new: true }
+      );
+
+      res.send(event);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
     }
   },
 

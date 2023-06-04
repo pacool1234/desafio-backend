@@ -1,4 +1,6 @@
 const Event = require("../models/Event");
+const User = require("../models/User");
+const Tag = require("../models/Tag");
 
 const EventController = {
     
@@ -8,8 +10,17 @@ const EventController = {
       if (req.file) {
         imgPath = req.file.path;
       }
+
+      const eventTags = await Tag.findById(req.body.eventTags);
+      const attendees = await User.findById(req.body.attendees);
+
       const event = await Event.create({
-        ...req.body,
+        title: req.body.title,
+        description: req.body.description,
+        time: req.body.time,
+        date: req.body.date,
+        attendees: attendees,
+        eventTags: eventTags,
         img: imgPath,
       });
       

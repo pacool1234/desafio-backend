@@ -2,16 +2,17 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const EventSchema = new mongoose.Schema({
-    title: {type: String},
-    description: {type: String},
-    date: [],
+    title: String,
+    description: String,
     time: Date,
-    atendees: [{ type: ObjectId, ref: 'User' }],
-    eventTags: [],
-    img: {type: String} //multer- upload
-     }, { timestamps: true }
+    attendees: {
+        type: [{ type: ObjectId, ref: 'User' }],
+        default: []
+      },
+    eventTags: [{ type: ObjectId, ref: 'Tag' }],
+    img: String,
+}, { timestamps: true }
 );
 
-const Events = mongoose.model("Event", EventSchema);
-
+const Event = mongoose.model("Event", EventSchema);
 module.exports = Event;
