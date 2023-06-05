@@ -17,8 +17,9 @@ const UserSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please enter a password"],
         },
+
         age: Number,
-        degree:{ type: ObjectId, ref: "Degree" },
+        degree: { type: ObjectId, ref: "Degree" },
         gender: String,
         linkedIn: String,
         role: { type: String, default: "user" },
