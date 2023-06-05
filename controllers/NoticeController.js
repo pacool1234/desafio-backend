@@ -2,6 +2,8 @@ const Notice = require("../models/Notice");
 // const User = require("../models/User");
 const Tag = require("../models/Tag");
 
+
+// ENDPOINT: CREATE Notice
 const NoticeController = {
 
   async create(req, res) {
@@ -11,12 +13,9 @@ const NoticeController = {
         imgPath = req.file.path;
       }
 
-      const noticeTags = await Notice.findById(req.body.noticeTags);
-
       const notice = await Notice.create({
         title: req.body.title,
         description: req.body.description,
-        noticeTags: noticeTags,
         img: imgPath,
       });
 
@@ -28,8 +27,41 @@ const NoticeController = {
         .send({ message: "There has been a problem creating the NOTICE" });
     }
   },
+    //ENDPOINT: UPDATE Notice
+    async update(req, res) {
+      try {
+          const notice = await Notice.findByIdAndUpdate(req.params._id, req.body,
+              { new: true })
+          res.send({ message: " This NOTICE has been successfully updated:", notice });
+      } catch (error) {
+          console.error(error);
+      }
+  },
 
+      //ENDPOINT:  GET Notice by ID
 
+      async getById(req, res) {
+        try {
+            const notice = await Notice.findById(req.params._id)
+            res.send(notice)
+        } catch (error) {
+            console.error(error);
+        }
+    },
+      //ENDPOINT:  GET ALL Notices
+
+    async getAll(req, res) {
+      try {
+        const notices = await Notice.find();
+        res.send(notices);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'There has been a problem showing ALL NOTICES' });
+      }
+    },
+    
+
+  //ENDPOINT: DELETE Notice
   async delete(req, res) {
     try {
       const notice = await Notice.findByIdAndDelete(req.params._id)

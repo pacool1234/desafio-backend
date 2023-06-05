@@ -5,7 +5,6 @@ const NoticeSchema = new mongoose.Schema({
     title: String,
     description: String,
     time: Date,
-    noticeTags: [{ type: ObjectId, ref: 'Tag' }],
     img: String,
 }, { timestamps: true }
 );
