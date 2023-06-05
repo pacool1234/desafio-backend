@@ -31,5 +31,6 @@ const upload = function (subfolder) {
 const uploadUserImg = upload("users"); //passing subfolder as parameter
 const uploadEventsImg = upload("events");
 const uploadCommentImg = upload("comments");
+const uploadNoticesImg = upload("notices");
 
-module.exports = { uploadUserImg, uploadEventsImg, uploadCommentImg };
+module.exports = { uploadUserImg, uploadEventsImg, uploadCommentImg, uploadNoticesImg };

@@ -18,6 +18,7 @@ app.use("/chats", require("./routes/chats"));
 app.use("/events", require("./routes/events"));
 app.use("/tags", require("./routes/tags"));
 app.use("/notifications", require("./routes/notifications"));
+app.use("/notices", require("./routes/notices"));
 
 
 
