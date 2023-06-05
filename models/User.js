@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
         userType: { type: ObjectId, ref: "UserType" },
         chat: [{ type: ObjectId, ref: "Chat" }],
         // postIds: [{ type: ObjectId, ref: "Post" }],
-        // likes: [{ type: ObjectId, ref: 'Post' }],
+        likesNotices: [{ type: ObjectId, ref: 'Notice' }],
         // wishList: [{ type: ObjectId, ref: 'Post' }],
         suscriptions: [{ type: ObjectId, ref: 'Event' }],
         followers: [{ type: ObjectId, ref: 'User' }],

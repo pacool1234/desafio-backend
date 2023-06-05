@@ -6,6 +6,8 @@ const NoticeSchema = new mongoose.Schema({
     description: String,
     time: Date,
     img: String,
+    likesUsers: [{ type: ObjectId, ref: 'User' }],
+
 }, { timestamps: true }
 );
 

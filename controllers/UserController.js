@@ -2,6 +2,7 @@ const User = require("../models/User");
 const UserType = require("../models/UserType");
 const Degree = require("../models/Degree");
 const Event = require("../models/Event");
+const Notice = require("../models/Notice");
 
 const transporter = require("../config/nodemailer");
 const bcrypt = require("bcryptjs");
@@ -130,17 +131,17 @@ const UserController = {
         // Si el campo 'confirmed' es false, significa que el correo no ha sido confirmado
         const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: "48h" });
         const url = "http://localhost:8080/users/confirm/" + emailToken;
-  
+
         await transporter.sendMail({
           to: req.body.email,
           subject: "Confirm your verification",
           html: `<h3>Welcome, you're one step away from verifying</h3>
                  <a href="${url}">Click to confirm your verification</a>`,
         });
-  
+
         return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
       }
-  
+
 
 
       const passwordMatch = await bcrypt.compare(
@@ -303,6 +304,60 @@ const UserController = {
       res.status(500).send({ message: "There was a problem with your like" });
     }
   },
+
+  //Likes notices
+  async likesnotices(req, res) {
+    try {
+      const notice = await Notice.findById(req.params._id);
+
+      if (notice.likesUsers.includes(req.user._id)) {
+        return res.status(400).send({ message: "You already liked this notice" });
+      }
+
+      notice.likesUsers.push(req.user._id);
+      await notice.save();
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { likesNotices: req.params._id } },
+        { new: true }
+      );
+
+      res.send(notice);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+
+//unlike notices
+  async unlikenotices(req, res) {
+  try {
+    const notice = await Notice.findById(req.params._id);
+
+    if (!notice.likesUsers.includes(req.user._id)) {
+      return res.status(400).send({ message: "You have not liked this notice" });
+    }
+
+    notice.likesUsers = notice.likesUsers.filter(
+      (likesUser) => likesUser.toString() !== req.user._id.toString()
+    );
+    await notice.save();
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { likesNotices: req.params._id } },
+      { new: true }
+    );
+
+    res.status(200).send({ message: "You have unliked the notice", notice });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "There was a problem unliking the notice" });
+  }
+},
+
 
 
   //NO SE ESTÁN USANDO PERO SE PODRÍAN USAR EN UN FUTURO

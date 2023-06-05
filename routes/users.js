@@ -15,6 +15,8 @@ router.get('/confirm/:emailToken', UserController.confirm)
 router.get("/getById/:_id", authentication, UserController.getById);
 router.get("/getByUsername/:username", authentication, UserController.getByUsername);
 router.put('/suscription/:_id', authentication, UserController.suscription);
+router.put('/likesnotices/:_id', authentication, UserController.likesnotices);
+router.put('/unlikenotices/:_id', authentication, UserController.unlikenotices);
 router.put('/follow/:_id', authentication, UserController.follow);
 router.put('/unfollow/:_id', authentication, UserController.unfollow);
 router.get("/getUserFollowers", authentication, UserController.getUserFollowers);

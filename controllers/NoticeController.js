@@ -16,6 +16,7 @@ const NoticeController = {
       const notice = await Notice.create({
         title: req.body.title,
         description: req.body.description,
+        time: req.body.time,
         img: imgPath,
       });
 
