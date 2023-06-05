@@ -127,10 +127,20 @@ const UserController = {
       }
 
       if (!user.confirmed) {
-        return res
-          .status(401)
-          .send({ message: "It is necessary to confirm your email" });
+        // Si el campo 'confirmed' es false, significa que el correo no ha sido confirmado
+        const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: "48h" });
+        const url = "http://localhost:8080/users/confirm/" + emailToken;
+  
+        await transporter.sendMail({
+          to: req.body.email,
+          subject: "Confirm your verification",
+          html: `<h3>Welcome, you're one step away from verifying</h3>
+                 <a href="${url}">Click to confirm your verification</a>`,
+        });
+  
+        return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
       }
+  
 
 
       const passwordMatch = await bcrypt.compare(
