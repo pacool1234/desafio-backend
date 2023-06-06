@@ -22,9 +22,9 @@ const ChatController = {
 
   async update(req, res) {
     try {
-      req.body.message.date = new Date();
+      req.body.date = new Date();
       await Chat.findByIdAndUpdate(req.params._id, {
-        $push: { history: req.body.message },
+        $push: { history: req.body },
       });
       res.send({ message: "Chat history updated" });
     } catch (error) {
@@ -45,7 +45,7 @@ const ChatController = {
 
   async getOne(req, res) {
     try {
-      const chat = await Chat.findById(req.params._id);
+      const chat = await Chat.findById(req.params._id).populate('users', 'username img');
       res.send(chat);
     } catch (error) {
       console.error(error);
