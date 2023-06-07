@@ -3,6 +3,7 @@ const UserType = require("../models/UserType");
 const Degree = require("../models/Degree");
 const Event = require("../models/Event");
 const Notice = require("../models/Notice");
+const Comment = require("../models/Comment");
 
 const transporter = require("../config/nodemailer");
 const bcrypt = require("bcryptjs");
@@ -356,6 +357,59 @@ const UserController = {
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "There was a problem unliking the notice" });
+  }
+},
+
+  //Likes comments
+  async likescomments(req, res) {
+    try {
+      const comment = await Comment.findById(req.params._id);
+
+      if (comment.likesUserC.includes(req.user._id)) {
+        return res.status(400).send({ message: "You already liked this comment" });
+      }
+
+      comment.likesUserC.push(req.user._id);
+      await comment.save();
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { likesCom: req.params._id } },
+        { new: true }
+      );
+
+      res.send(comment);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).send({ message: "There was a problem with your like" });
+    }
+  },
+
+//unlike comments
+  async unlikecomments(req, res) {
+  try {
+    const comment = await Comment.findById(req.params._id);
+
+    if (!comment.likesUserC.includes(req.user._id)) {
+      return res.status(400).send({ message: "You have not liked this comment" });
+    }
+
+    comment.likesUserC = comment.likesUserC.filter(
+      (likesUserC) => likesUserC.toString() !== req.user._id.toString()
+    );
+    await comment.save();
+
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $pull: { likesCom: req.params._id } },
+      { new: true }
+    );
+
+    res.status(200).send({ message: "You have unliked the comment", comment });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "There was a problem unliking the comment" });
   }
 },
 

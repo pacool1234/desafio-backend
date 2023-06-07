@@ -6,7 +6,9 @@ const NoticeSchema = new mongoose.Schema({
     description: String,
     time: Date,
     img: String,
+    userId: { type: ObjectId, ref: 'User' },
     likesUsers: [{ type: ObjectId, ref: 'User' }],
+    commentIds: [{ type: ObjectId, ref: 'Comment' }],
 
 }, { timestamps: true }
 );
