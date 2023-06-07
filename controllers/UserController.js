@@ -201,6 +201,7 @@ const UserController = {
         email: req.user.email,
         username: req.user.username,
         password: req.user.password,
+        chat: req.user.chat,
       };
       res.send(user);
     } catch (error) {
