@@ -27,6 +27,18 @@ const UserTypeController = {
         }
     },
 
+   // Get All userType
+
+    async getAll(req, res) {
+        try {
+          const userTypes = await UserType.find();
+          res.send(userTypes);
+        } catch (error) {
+          console.error(error);
+          res.status(500).send({ message: 'There has been a problem showing ALL USERTYPES' });
+        }
+      },
+      
 
 };
 
