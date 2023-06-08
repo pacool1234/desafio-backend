@@ -35,6 +35,7 @@ const EventController = {
   async delete(req, res) {
     try {
       const event = await Event.findByIdAndDelete(req.params._id)
+      // Delete event._id from User.suscriptions from all users attending said event
       res.send({ event, message: 'EVENT Removed' })
     } catch (error) {
       console.error(error)
