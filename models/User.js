@@ -28,11 +28,11 @@ const UserSchema = new mongoose.Schema(
         tokens: [],
         userType: { type: ObjectId, ref: "UserType" },
         cargo: String,
-        skills: { type: ObjectId, ref: "Skill" },
-        hobbies: { type: ObjectId, ref: "Hobby" },
+        skills: [{ type: ObjectId, ref: "Skill" }],//añadidos corechetes array
+        hobbies: [{ type: ObjectId, ref: "Hobby" }], // añadidos corchetes array
         interest: [{ type: ObjectId, ref: "Tag" }],
         chat: [{ type: ObjectId, ref: "Chat" }],
-        // postIds: [{ type: ObjectId, ref: "Post" }],
+        // postIds: [{ type: ObjectId, ref: "Post" }]
         likesNotices: [{ type: ObjectId, ref: 'Notice' }],
         likesCom: [{ type: ObjectId, ref: 'Comment' }],
         suscriptions: [{ type: ObjectId, ref: 'Event' }],
