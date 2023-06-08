@@ -32,6 +32,8 @@ app.use("/tags", require("./routes/tags"));
 app.use("/notifications", require("./routes/notifications"));
 app.use("/notices", require("./routes/notices"));
 app.use("/comments", require("./routes/comments"));
+app.use("/skills", require("./routes/skills"));
+app.use("/hobbies", require("./routes/hobbies"));
 
 io.on("connection", (socket) => {
   console.log("New client connected");
