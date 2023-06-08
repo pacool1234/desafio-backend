@@ -126,33 +126,32 @@ const UserController = {
       const user = await User.findOne({
         email: req.body.email,
       });
-
+      //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
         return res.status(400).send({ message: "Invalid email or password" });
       }
-
+      //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
-        // Si el campo 'confirmed' es false, significa que el correo no ha sido confirmado
+        // Si el campo 'confirmed' es false, significa que el correo no ha sido confirmado, seguirá mandando correos de confirmación hasta que lo valide una sola vez
         const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: "48h" });
         const url = "http://localhost:8080/users/confirm/" + emailToken;
-
+        //Esta es la orden del envío de correo al usuario para su validación
         await transporter.sendMail({
           to: req.body.email,
           subject: "Confirm your verification",
           html: `<h3>Welcome, you're one step away from verifying</h3>
                  <a href="${url}">Click to confirm your verification</a>`,
         });
-
+        //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
         return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
       }
-
-
+      //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
       const passwordMatch = await bcrypt.compare(
         req.body.password,
         user.password
       );
-
+      //Si el usuario no acierta introduciendo el campo de password, devuelve este mensaje
       if (!passwordMatch) {
         return res.status(400).send({ message: "Invalid email or password" });
       }
@@ -165,6 +164,7 @@ const UserController = {
       user.tokens.push(token);
       await user.save();
 
+      // Cuando los campos de usuario y contraseña son correctos, y el correo está verificado, en todos los login recibirá este mensaje
       res.status(200).send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
@@ -337,32 +337,32 @@ const UserController = {
     }
   },
 
-//unlike notices
+  //unlike notices
   async unlikenotices(req, res) {
-  try {
-    const notice = await Notice.findById(req.params._id);
+    try {
+      const notice = await Notice.findById(req.params._id);
 
-    if (!notice.likesUsers.includes(req.user._id)) {
-      return res.status(400).send({ message: "You have not liked this notice" });
+      if (!notice.likesUsers.includes(req.user._id)) {
+        return res.status(400).send({ message: "You have not liked this notice" });
+      }
+
+      notice.likesUsers = notice.likesUsers.filter(
+        (likesUser) => likesUser.toString() !== req.user._id.toString()
+      );
+      await notice.save();
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { likesNotices: req.params._id } },
+        { new: true }
+      );
+
+      res.status(200).send({ message: "You have unliked the notice", notice });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem unliking the notice" });
     }
-
-    notice.likesUsers = notice.likesUsers.filter(
-      (likesUser) => likesUser.toString() !== req.user._id.toString()
-    );
-    await notice.save();
-
-    await User.findByIdAndUpdate(
-      req.user._id,
-      { $pull: { likesNotices: req.params._id } },
-      { new: true }
-    );
-
-    res.status(200).send({ message: "You have unliked the notice", notice });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: "There was a problem unliking the notice" });
-  }
-},
+  },
 
   //Likes comments
   async likescomments(req, res) {
@@ -390,32 +390,32 @@ const UserController = {
     }
   },
 
-//unlike comments
+  //unlike comments
   async unlikecomments(req, res) {
-  try {
-    const comment = await Comment.findById(req.params._id);
+    try {
+      const comment = await Comment.findById(req.params._id);
 
-    if (!comment.likesUserC.includes(req.user._id)) {
-      return res.status(400).send({ message: "You have not liked this comment" });
+      if (!comment.likesUserC.includes(req.user._id)) {
+        return res.status(400).send({ message: "You have not liked this comment" });
+      }
+
+      comment.likesUserC = comment.likesUserC.filter(
+        (likesUserC) => likesUserC.toString() !== req.user._id.toString()
+      );
+      await comment.save();
+
+      await User.findByIdAndUpdate(
+        req.user._id,
+        { $pull: { likesCom: req.params._id } },
+        { new: true }
+      );
+
+      res.status(200).send({ message: "You have unliked the comment", comment });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "There was a problem unliking the comment" });
     }
-
-    comment.likesUserC = comment.likesUserC.filter(
-      (likesUserC) => likesUserC.toString() !== req.user._id.toString()
-    );
-    await comment.save();
-
-    await User.findByIdAndUpdate(
-      req.user._id,
-      { $pull: { likesCom: req.params._id } },
-      { new: true }
-    );
-
-    res.status(200).send({ message: "You have unliked the comment", comment });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ message: "There was a problem unliking the comment" });
-  }
-},
+  },
 
 
 
