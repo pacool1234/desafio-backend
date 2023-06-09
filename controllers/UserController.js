@@ -143,7 +143,7 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res.status(200).send({ message: "Email verification sent" });
+        return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
