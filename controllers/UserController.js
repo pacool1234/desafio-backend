@@ -72,7 +72,10 @@ const UserController = {
           .send({ message: "You do not have permission to update this user" });
       }
 
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      if (req.body.password) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      }
+
 
       let imgPath;
       if (req.file) {
@@ -86,7 +89,7 @@ const UserController = {
         {
           username: req.body.username,
           email: req.body.email,
-          password: hashedPassword,
+          // password: hashedPassword,
           age: req.body.age,
           gender: req.body.gender,
           linkedIn: req.body.linkedIn,
@@ -140,7 +143,7 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res.status(200).send({ message: "Email verification sent" });
+        return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
@@ -203,6 +206,7 @@ const UserController = {
         username: req.user.username,
         password: req.user.password,
         chat: req.user.chat,
+        img: req.user.img,
       };
       res.send(user);
     } catch (error) {
