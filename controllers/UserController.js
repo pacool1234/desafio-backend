@@ -33,7 +33,10 @@ const UserController = {
         img: imgPath, // Agrega el campo de imagen a la base de datos
         userType: userType,
         degree: degree,
-
+        interest: req.body.interest, 
+        hobbies: req.body.hobbies,
+        skills: req.body.skills,
+        suscriptions: req.body.suscriptions
       });
 
       const emailToken = jwt.sign(
