@@ -128,7 +128,7 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res.status(400).send({ message: "Invalid email or password" });
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos.<br>Vuelve a intentarlo." });
       }
       //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
@@ -143,7 +143,7 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
+        return res.status(401).send({ message: "Revisa la bandeja de tu correo corporativo.<br>Te hemos enviado un email para verificar la cuenta." });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
