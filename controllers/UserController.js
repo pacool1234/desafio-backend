@@ -165,7 +165,8 @@ const UserController = {
       await user.save();
 
       // Cuando los campos de usuario y contraseña son correctos, y el correo está verificado, en todos los login recibirá este mensaje
-      res.status(200).send({ message: "Welcome " + user.username, token });
+      res.status(200)
+      // .send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
     }
@@ -263,7 +264,7 @@ const UserController = {
       The link will expire in 48 hours`,
       });
       res.send({
-        message: "A recovery email was sent to your email address",
+        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
       });
     } catch (error) {
       console.error(error);
