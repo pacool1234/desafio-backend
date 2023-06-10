@@ -285,6 +285,7 @@ const UserController = {
   },
 
   async resetPassword(req, res) {
+    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM")
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const recoverToken = req.params.recoverToken;     
