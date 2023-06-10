@@ -256,7 +256,7 @@ const UserController = {
         return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
       }
       const recoverToken = jwt.sign(
-        { email: req.params.email },
+        { email: req.bodycommi.email },
         process.env.JWT_SECRET,
         {
           expiresIn: "48h",
