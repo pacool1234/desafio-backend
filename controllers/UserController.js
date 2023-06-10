@@ -128,7 +128,7 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo." });
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo" });
       }
       //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
@@ -153,7 +153,7 @@ const UserController = {
       );
       //Si el usuario no acierta introduciendo el campo de password, devuelve este mensaje
       if (!passwordMatch) {
-        return res.status(400).send({ message: "Invalid email or password" });
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo" });
       }
 
       // Agregar lógica para verificar contraseña y generar token de acceso
