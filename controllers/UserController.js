@@ -248,26 +248,30 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
-            const recoverToken = jwt.sign(
-        { email: req.body.email },
+      // const user = await User.findOne({
+      //   email: req.body.email,
+      // });
+      // //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
+      // if (!user) {
+      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
+      // }
+      const recoverToken = jwt.sign(
+        { email: req.params.email },
         process.env.JWT_SECRET,
         {
           expiresIn: "48h",
         }
       );
-      const resetPasswordUrl = `http://localhost:8080/users/resetPassword/${recoverToken}`;
-
+      const url = "http://localhost:8080/users/resetPassword/" + recoverToken;
       await transporter.sendMail({
-        to: req.body.email,
+        to: req.params.email,
         subject: "Recover Password",
-        html: `<h3>Recover Password</h3>
-        <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
-        <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>
-        <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>`,
+        html: `<h3> Recover Password </h3>
+      <a href="${url}">Recover Password</a>
+      The link will expire in 48 hours`,
       });
-
       res.send({
-        message: "Revisa la bandeja de tu correo corporativo. Te hemos enviado un correo para recuperar la contraseña.",
+        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
       });
     } catch (error) {
       console.error(error);
