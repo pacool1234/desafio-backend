@@ -288,6 +288,7 @@ const UserController = {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const recoverToken = req.params.recoverToken;
+      console.log(recoverToken)
       const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
       await User.findOneAndUpdate(
         { email: payload.email },
