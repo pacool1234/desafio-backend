@@ -272,11 +272,9 @@ const UserController = {
       await transporter.sendMail({
         to: req.params.email,
         subject: "Recover Password",
-        html: `<h3> Recover Password </h3>
-          Aquí está tu contraseña provisional, cópiala, y cámbiala en el siguiente enlace<br>
+        html: `<h3> Recover Password </h3>          
           <a href="${url}">Recover Password</a>
-          The link will expire in 48 hours<br>
-          ${recoverToken}`,
+          The link will expire in 48 hours`,
       });
       res.send({
         message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
