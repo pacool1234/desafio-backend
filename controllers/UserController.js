@@ -265,13 +265,19 @@ const UserController = {
           expiresIn: "48h",
         }
       );
-      const url = "http://localhost:5173/recoverPass/" + recoverToken;
+      function base64UrlEncode(str) {
+        return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '').replace(/\./g, '¿');
+      };
+      const encodedToken = base64UrlEncode(recoverToken)
+
+      const url = "http://localhost:5173/recoverPass/" + encodedToken;
+      // + recoverToken;
       await transporter.sendMail({
         to: req.params.email,
         subject: "Recover Password",
-        html: `<h3> Recover Password </h3>
-      <a href="${url}">Recover Password</a>
-      The link will expire in 48 hours`,
+        html: `<h3> Recover Password </h3>          
+          <a href="${url}">Recover Password</a>
+          The link will expire in 48 hours`,
       });
       res.send({
         message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
@@ -284,16 +290,16 @@ const UserController = {
   async resetPassword(req, res) {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const recoverToken = req.params.recoverToken;
+      const recoverToken = req.params.recoverToken;     
       const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
       await User.findOneAndUpdate(
         { email: payload.email },
         { password: hashedPassword }
       );
-      res.send({ message: "Password changed successfully" });
+      res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
-
+      res.status(500).send({ message: "Error al cambiar la contraseña" });
     }
   },
 
