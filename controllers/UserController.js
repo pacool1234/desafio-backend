@@ -262,7 +262,8 @@ const UserController = {
           expiresIn: "48h",
         }
       );
-      const url = "http://localhost:5173/recoverPass/" + recoverToken;
+      let encodedToken = encodeURIComponent(recoverToken);
+      const url = "http://localhost:5173/recoverPass/" + encodedToken;
       // + recoverToken;
       await transporter.sendMail({
         to: req.params.email,
