@@ -296,6 +296,7 @@ const UserController = {
       res.send({ message: "Password changed successfully" });
     } catch (error) {
       console.error(error);
+      res.status(500).send({ message: "ERROR" });
     }
   },
 
