@@ -263,7 +263,7 @@ const UserController = {
         }
       );
       function base64UrlEncode(str) {
-        return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '').replace(/\./, '¿');
+        return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '').replace(/\./g, '¿');
      };
      const encodedToken = base64UrlEncode(recoverToken)
   
