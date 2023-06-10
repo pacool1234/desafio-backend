@@ -299,7 +299,6 @@ const UserController = {
   },
 
   async resetPassword(req, res) {
-    console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const recoverToken = req.params.recoverToken;
@@ -321,7 +320,7 @@ const UserController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Error al cambiar la contraseña", error });
+        .send({ message: "Error al cambiar la contraseña", error, decodedToken });
     }
   },
 
