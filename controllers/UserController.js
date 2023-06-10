@@ -248,15 +248,15 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
-      const user = await User.findOne({
-        email: req.body.email,
-      });
-      //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
-      if (!user) {
-        return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
-      }
+      // const user = await User.findOne({
+      //   email: req.body.email,
+      // });
+      // //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
+      // if (!user) {
+      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
+      // }
       const recoverToken = jwt.sign(
-        { email: req.bodycommi.email },
+        { email: req.body.email },
         process.env.JWT_SECRET,
         {
           expiresIn: "48h",
