@@ -262,12 +262,14 @@ const UserController = {
           expiresIn: "48h",
         }
       );
-      const url = "http://localhost:5173/recoverPass/"; 
+      const url = "http://localhost:5173/recoverPass"; 
       // + recoverToken;
       await transporter.sendMail({
         to: req.params.email,
         subject: "Recover Password",
         html: `<h3> Recover Password </h3>
+        <h3> aquí está tu contraseña provisional, cópiala, y cámbiala en el siguiente enlace<h3>
+        <h3>"${recoverToken}"<h3>
       <a href="${url}">Recover Password</a>
       The link will expire in 48 hours`,
       });
