@@ -138,7 +138,7 @@ const UserController = {
           process.env.JWT_SECRET,
           { expiresIn: "48h" }
         );
-        const url = "http://localhost:8080/users/confirm/" + emailToken;
+        const url = "https://desafio-backend-production.up.railway.app/users/confirm/" + emailToken;
         //Esta es la orden del envío de correo al usuario para su validación
         await transporter.sendMail({
           to: req.body.email,
