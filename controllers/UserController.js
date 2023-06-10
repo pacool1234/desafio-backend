@@ -248,38 +248,38 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
-      // const user = await User.findOne({
-      //   email: req.body.email,
-      // });
-
-      // // Si el usuario no acierta al introducir el campo de email, devuelve este mensaje
-      // if (!user) {
-      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
-      // }
-
       const recoverToken = jwt.sign(
         { email: req.body.email },
         process.env.JWT_SECRET,
         {
-          expiresIn: "48h",
+          expiresIn: '48h',
         }
       );
       const resetPasswordUrl = `http://localhost:8080/users/resetPassword/${recoverToken}`;
-
+  
+      const html = `
+        <h3>Recuperar Contraseña</h3>
+        <p>Para restablecer tu contraseña, completa el siguiente formulario:</p>
+        <form action="${resetPasswordUrl}" method="PUT">
+          <input type="password" name="password" placeholder="Nueva contraseña" required>
+          <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" required>
+          <button type="submit">Resetear contraseña</button>
+        </form>
+        <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>
+      `;
+  
       await transporter.sendMail({
         to: req.body.email,
-        subject: "Recover Password",
-        html: `<h3>Recover Password</h3>
-        <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
-        <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>
-        <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>`,
+        subject: 'Recuperar Contraseña',
+        html,
       });
-
+  
       res.send({
-        message: "Revisa la bandeja de tu correo corporativo. Te hemos enviado un correo para recuperar la contraseña.",
+        message: 'Revisa la bandeja de tu correo corporativo. Te hemos enviado un correo con el formulario para recuperar la contraseña.',
       });
     } catch (error) {
       console.error(error);
+      res.status(500).json({ message: 'Ocurrió un error al enviar el correo de recuperación de contraseña.' });
     }
   },
 
