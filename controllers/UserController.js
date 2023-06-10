@@ -131,7 +131,7 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res.status(400).send({ message: "Invalid email or password" });
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo." });
       }
       //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
@@ -146,7 +146,7 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res.status(401).send({ message: "It is necessary to confirm your account, we have sent you an email to confirm your verification" });
+        return res.status(401).send({ message: "Revisa la bandeja de tu correo corporativo. Te hemos enviado un email para verificar la cuenta." });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
@@ -168,7 +168,8 @@ const UserController = {
       await user.save();
 
       // Cuando los campos de usuario y contraseña son correctos, y el correo está verificado, en todos los login recibirá este mensaje
-      res.status(200).send({ message: "Welcome " + user.username, token });
+      res.status(200).send({ token });
+      // send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
     }
@@ -250,6 +251,13 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
+      // const user = await User.findOne({
+      //   email: req.body.email,
+      // });
+      // //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
+      // if (!user) {
+      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
+      // }
       const recoverToken = jwt.sign(
         { email: req.params.email },
         process.env.JWT_SECRET,
@@ -257,7 +265,7 @@ const UserController = {
           expiresIn: "48h",
         }
       );
-      const url = "http://localhost:8080/users/resetPassword/" + recoverToken;
+      const url = "http://localhost:5173/recoverPass/" + recoverToken;
       await transporter.sendMail({
         to: req.params.email,
         subject: "Recover Password",
@@ -266,7 +274,7 @@ const UserController = {
       The link will expire in 48 hours`,
       });
       res.send({
-        message: "A recovery email was sent to your email address",
+        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
       });
     } catch (error) {
       console.error(error);
@@ -285,6 +293,7 @@ const UserController = {
       res.send({ message: "Password changed successfully" });
     } catch (error) {
       console.error(error);
+
     }
   },
 
