@@ -294,10 +294,11 @@ const UserController = {
         { email: payload.email },
         { password: hashedPassword }
       );
-      res.send({ message: "Password changed successfully" });
+      res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "ERROR" });
+      res.status(404).send({ message: "Usuario no es válido" });
+      res.status(500).send({ message: "Error al cambiar la contraseña" });
     }
   },
 
