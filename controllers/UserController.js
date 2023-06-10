@@ -268,6 +268,7 @@ const UserController = {
       });
     } catch (error) {
       console.error(error);
+      res.status(404).send({ message: "Usuario no válido" });
     }
   },
 
@@ -283,6 +284,7 @@ const UserController = {
       res.send({ message: "Password changed successfully" });
     } catch (error) {
       console.error(error);
+      
     }
   },
 
