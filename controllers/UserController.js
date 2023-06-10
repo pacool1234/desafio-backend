@@ -153,7 +153,7 @@ const UserController = {
       );
       //Si el usuario no acierta introduciendo el campo de password, devuelve este mensaje
       if (!passwordMatch) {
-        return res.status(400).send({ message: "Invalid email or password" });
+        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo." });
       }
 
       // Agregar lógica para verificar contraseña y generar token de acceso
@@ -269,9 +269,10 @@ const UserController = {
         html: `
         <h3>Recuperar Contraseña</h3>
         <p>Para restablecer tu contraseña, completa el siguiente formulario:</p>
-        <form action="${url}" method="PUT">
+        <form action="${url}" method="POST">
           <input type="password" name="password" placeholder="Nueva contraseña" required>
           <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" required>
+          <input type="hidden" name="recoverToken" value="${recoverToken}">
           <button type="submit">Resetear contraseña</button>
         </form>
         <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>
