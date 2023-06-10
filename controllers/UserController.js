@@ -126,11 +126,9 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res
-          .status(400)
-          .send({
-            message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
-          });
+        return res.status(400).send({
+          message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
+        });
       }
       //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
@@ -149,12 +147,10 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res
-          .status(401)
-          .send({
-            message:
-              "Revisa la bandeja de tu correo corporativo. Te hemos enviado un email para verificar la cuenta.",
-          });
+        return res.status(401).send({
+          message:
+            "Revisa la bandeja de tu correo corporativo. Te hemos enviado un email para verificar la cuenta.",
+        });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
@@ -164,11 +160,9 @@ const UserController = {
       );
       //Si el usuario no acierta introduciendo el campo de password, devuelve este mensaje
       if (!passwordMatch) {
-        return res
-          .status(400)
-          .send({
-            message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
-          });
+        return res.status(400).send({
+          message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
+        });
       }
 
       // Agregar lógica para verificar contraseña y generar token de acceso
@@ -274,8 +268,6 @@ const UserController = {
       function base64UrlEncode(str) {
         return str
           .replace(/\+/g, "-")
-          .replace(/\//g, "_")
-          .replace(/=+$/, "")
           .replace(/\./g, "¿");
       }
       const encodedToken = base64UrlEncode(recoverToken);
@@ -303,11 +295,7 @@ const UserController = {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const recoverToken = req.params.recoverToken;
       function base64UrlDecode(str) {
-        // Pad with '=' to make length a multiple of 4
-        while (str.length % 4) {
-          str += "=";
-        }
-        return str.replace(/-/g, "+").replace(/_/g, "/").replace(/¿/g, ".");
+        return str.replace(/-/g, "+").replace(/¿/g, ".");
       }
       const decodedToken = base64UrlDecode(recoverToken);
       const payload = jwt.verify(decodedToken, process.env.JWT_SECRET);
@@ -320,7 +308,7 @@ const UserController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "Error al cambiar la contraseña", error, decodedToken });
+        .send({ message: "Error al cambiar la contraseña", error });
     }
   },
 
