@@ -277,7 +277,7 @@ const UserController = {
           The link will expire in 48 hours`,
       });
       res.send({
-        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña",
+        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
       });
     } catch (error) {
       console.error(error);
@@ -295,8 +295,7 @@ const UserController = {
       );
       res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
-      console.error(error);
-      return res.status(404).send({ message: "Usuario no válido" });
+      console.error(error);     
     }
   },
 
