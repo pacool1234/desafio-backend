@@ -165,8 +165,8 @@ const UserController = {
       await user.save();
 
       // Cuando los campos de usuario y contraseña son correctos, y el correo está verificado, en todos los login recibirá este mensaje
-      res.status(200)
-      // .send({ message: "Welcome " + user.username, token });
+      res.status(200).send({token});
+      // send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
     }
