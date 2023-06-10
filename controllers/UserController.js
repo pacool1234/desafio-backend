@@ -211,14 +211,8 @@ const UserController = {
   // Endpoint get authenticated user
   async getUser(req, res) {
     try {
-      const user = {
-        email: req.user.email,
-        username: req.user.username,
-        password: req.user.password,
-        chat: req.user.chat,
-        cargo: req.user.cargo,
-        img: req.user.img,
-      };
+      const user = await User.findById(req.user._id)
+        .populate("contacts.userId", "username email cargo img");
       res.send(user);
     } catch (error) {
       console.error(error);
@@ -557,6 +551,27 @@ const UserController = {
       res
         .status(500)
         .json({ message: "There was a problem getting the user info" });
+    }
+  },
+
+  // Endpoint made by PACO
+  async addContact(req, res) {
+    try {
+      const contactObject = {
+        userId: req.body.userId,
+        favourite: false,
+      };
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { 
+          contacts: contactObject
+        }});
+
+      res.send({ message: `USer with ID: ${req.body.userId} added to contacts` });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem when adding contact", error });
     }
   },
 };
