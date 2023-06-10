@@ -248,13 +248,7 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
-      // const user = await User.findOne({
-      //   email: req.body.email,
-      // });
-      // //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
-      // if (!user) {
-      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
-      // }
+     
       const recoverToken = jwt.sign(
         { email: req.params.email },
         process.env.JWT_SECRET,
@@ -297,7 +291,7 @@ const UserController = {
       res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error al cambiar la contraseña" });
+      res.status(500).send({ message: "Error al cambiar la contraseña", error });
     }
   },
 
