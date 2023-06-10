@@ -264,9 +264,9 @@ const UserController = {
       );
       function base64UrlEncode(str) {
         return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '').replace(/\./g, '¿');
-     };
-     const encodedToken = base64UrlEncode(recoverToken)
-  
+      };
+      const encodedToken = base64UrlEncode(recoverToken)
+
       const url = "http://localhost:5173/recoverPass/" + encodedToken;
       // + recoverToken;
       await transporter.sendMail({
@@ -297,7 +297,6 @@ const UserController = {
       res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
-      res.status(404).send({ message: "Usuario no es válido" });
       res.status(500).send({ message: "Error al cambiar la contraseña" });
     }
   },
