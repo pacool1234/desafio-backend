@@ -252,7 +252,7 @@ const UserController = {
         email: req.body.email,
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
-      if (!user.email) {
+      if (!user) {
         return res.status(400).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
       }
       const recoverToken = jwt.sign(
