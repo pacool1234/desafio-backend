@@ -165,7 +165,7 @@ const UserController = {
       await user.save();
 
       // Cuando los campos de usuario y contraseña son correctos, y el correo está verificado, en todos los login recibirá este mensaje
-      res.status(200).send({token});
+      res.status(200).send({ token });
       // send({ message: "Welcome " + user.username, token });
     } catch (error) {
       console.error(error);
@@ -253,7 +253,7 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res.status(400).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
+        return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
       }
       const recoverToken = jwt.sign(
         { email: req.params.email },
@@ -275,7 +275,6 @@ const UserController = {
       });
     } catch (error) {
       console.error(error);
-      res.status(404).send({ message: "Usuario no válido" });
     }
   },
 
@@ -291,7 +290,7 @@ const UserController = {
       res.send({ message: "Password changed successfully" });
     } catch (error) {
       console.error(error);
-      
+
     }
   },
 
