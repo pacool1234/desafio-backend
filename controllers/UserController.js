@@ -267,7 +267,6 @@ const UserController = {
       );
       function base64UrlEncode(str) {
         return str
-          .replace(/\+/g, "-")
           .replace(/\./g, "¿");
       }
       const encodedToken = base64UrlEncode(recoverToken);
@@ -295,7 +294,7 @@ const UserController = {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const recoverToken = req.params.recoverToken;
       function base64UrlDecode(str) {
-        return str.replace(/-/g, "+").replace(/¿/g, ".");
+        return str.replace(/¿/g, ".");
       }
       const decodedToken = base64UrlDecode(recoverToken);
       const payload = jwt.verify(decodedToken, process.env.JWT_SECRET);
