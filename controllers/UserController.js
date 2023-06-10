@@ -260,16 +260,10 @@ const UserController = {
       await transporter.sendMail({
         to: req.body.email,
         subject: "Recover Password",
-        html: `
-      <h3>Recuperar Contraseña</h3>
-      <p>Para restablecer tu contraseña, completa el siguiente formulario:</p>
-      <form action="${resetPasswordUrl}" method="PUT">
-        <input type="password" name="password" placeholder="Nueva contraseña" required>
-        <input type="password" name="confirmPassword" placeholder="Confirmar contraseña" required>
-        <button type="submit">Resetear contraseña</button>
-      </form>
-      <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>
-    `,
+        html: `<h3>Recover Password</h3>
+        <p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>
+        <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>
+        <p>Este enlace caducará en 48 horas. Si no has solicitado restablecer tu contraseña, puedes ignorar este correo.</p>`,
       });
 
       res.send({
