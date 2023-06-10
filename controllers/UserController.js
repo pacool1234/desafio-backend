@@ -206,6 +206,7 @@ const UserController = {
         username: req.user.username,
         password: req.user.password,
         chat: req.user.chat,
+        cargo: req.user.cargo,
         img: req.user.img,
       };
       res.send(user);
