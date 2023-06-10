@@ -268,9 +268,9 @@ const UserController = {
         to: req.params.email,
         subject: "Recover Password",
         html: `<h3> Recover Password </h3>
-          Aquí está tu contraseña provisional, cópiala, y cámbiala en el siguiente enlace
+          Aquí está tu contraseña provisional, cópiala, y cámbiala en el siguiente enlace<br>
           <a href="${url}">Recover Password</a>
-          The link will expire in 48 hours
+          The link will expire in 48 hours<br>
           ${recoverToken}`,
       });
       res.send({
