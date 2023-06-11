@@ -223,7 +223,8 @@ const UserController = {
       console.error(error);
       res
         .status(500)
-        .send({ error: "An error occurred while getting user information" });
+        // .send({ error: "An error occurred while getting user information" });
+        .send(error);
     }
   },
 
