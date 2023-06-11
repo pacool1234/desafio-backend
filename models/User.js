@@ -52,6 +52,7 @@ const UserSchema = new mongoose.Schema(
         following: [{ type: ObjectId, ref: 'User' }],
         contacts: [ContactSchema],
         img: String,
+        backgroundImg: String,
 
     },
     { timestamps: true }
