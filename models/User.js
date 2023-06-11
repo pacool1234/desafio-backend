@@ -31,6 +31,7 @@ const UserSchema = new mongoose.Schema(
         },
 
         age: Number,
+        bio: String,
         degree: { type: ObjectId, ref: "Degree" },
         curso: String,
         gender: String,

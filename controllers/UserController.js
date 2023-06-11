@@ -212,6 +212,11 @@ const UserController = {
   async getUser(req, res) {
     try {
       const user = await User.findById(req.user._id)
+        .populate("degree")
+        .populate("userType")
+        .populate("skills")
+        .populate("hobbies")
+        .populate("interest")
         .populate("contacts.userId", "username email cargo img");
       res.send(user);
     } catch (error) {
