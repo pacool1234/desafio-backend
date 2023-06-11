@@ -1,7 +1,37 @@
 module.exports = {
     components: {
         schemas: {
-            task: {
+            tag: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the TAG used to label the Events",
+                        example: "Inteligencia Artificial"
+                    },
+                }
+            },
+            skill: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the SKILL used to classify Agora Users",
+                        example: "Programación"
+                    },
+                }
+            },
+            hobby: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the HOBBY used to classify Agora Users",
+                        example: "Cine"
+                    },
+                }
+            },
+            comment: {
                 type: 'object',
                 properties: {
                     _id: {
@@ -20,7 +50,8 @@ module.exports = {
                         example: false
                     }
                 }
-            }
+        },
         }
     }
 }
+
