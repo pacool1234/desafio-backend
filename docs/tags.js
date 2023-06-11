@@ -1,64 +1,26 @@
 module.exports = {
     paths: {
-        "/tasks": {
+        "/tags/create": {
             post: {
                 tags: {
-                    Tasks: "Create a task",
+                    Tasks: "Get Tasks",
                 },
-                description: "Create Task",
-                operationId: "createTask",
+                description: "Get tasks",
+                operationId: "getTasks",
                 parameters: [],
-                requestBody: {
-                    content: {
-                        "application/json": {
-                            schema: {
-                                $ref: "#/components/schemas/TaskInput",
+                responses: {
+                    200: {
+                        description: "Tasks were obtained",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/task",
+                                },
                             },
                         },
-                    },
-                },
-                responses: {
-                    201: {
-                        description: "Task created successfully",
-                    },
-                    500: {
-                        description: "Server error",
                     },
                 },
             },
         },
     },
-}
-
-module.exports = {
-    paths: {
-        "/tags": {
-            post: {
-                tags: {
-                    Tasks: "Create a task",
-                },
-                description: "Create Task",
-                operationId: "createTag",
-                parameters: [],
-                requestBody: {
-                    content: {
-                        "application/json": {
-                            schema: {
-                                $ref: "#/components/schemas/TaskInput",
-                            },
-                        },
-                    },
-                },
-                responses: {
-                    201: {
-                        description: "Task created successfully",
-                    },
-                    500: {
-                        description: "Server error",
-                    },
-                },
-            },
-        },
-    },
-}
-
+};
