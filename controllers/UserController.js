@@ -33,10 +33,6 @@ const UserController = {
         img: imgPath, // Agrega el campo de imagen a la base de datos
         userType: userType,
         degree: degree,
-        interest: req.body.interest, 
-        hobbies: req.body.hobbies,
-        skills: req.body.skills,
-        suscriptions: req.body.suscriptions
       });
 
       const emailToken = jwt.sign(
@@ -78,7 +74,6 @@ const UserController = {
       if (req.body.password) {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
       }
-
 
       let imgPath;
       if (req.file) {
@@ -131,12 +126,18 @@ const UserController = {
       });
       //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
       if (!user) {
-        return res.status(400).send({ message: "Usuario o contraseña incorrectos. Vuelve a intentarlo." });
+        return res.status(400).send({
+          message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
+        });
       }
       //Antes de hacer el login, accedemos internamente al perfil de usuario
       if (!user.confirmed) {
         // Si el campo 'confirmed' es false, significa que el correo no ha sido confirmado, seguirá mandando correos de confirmación hasta que lo valide una sola vez
-        const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: "48h" });
+        const emailToken = jwt.sign(
+          { email: req.body.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "48h" }
+        );
         const url = "http://localhost:8080/users/confirm/" + emailToken;
         //Esta es la orden del envío de correo al usuario para su validación
         await transporter.sendMail({
@@ -146,7 +147,10 @@ const UserController = {
                  <a href="${url}">Click to confirm your verification</a>`,
         });
         //Este es el mensaje que devuelve tras el primer login, o si no ha confirmado todavía ningún correo de verificación
-        return res.status(401).send({ message: "Revisa la bandeja de tu correo corporativo. Te hemos enviado un email para verificar la cuenta." });
+        return res.status(401).send({
+          message:
+            "Revisa la bandeja de tu correo corporativo. Te hemos enviado un email para verificar la cuenta.",
+        });
       }
       //Una vez haga el primer login, reciba el correo y verifique la cuenta, ya podrá logear y no recibirá más correos, seguirá la siguiente lógica
 
@@ -156,7 +160,9 @@ const UserController = {
       );
       //Si el usuario no acierta introduciendo el campo de password, devuelve este mensaje
       if (!passwordMatch) {
-        return res.status(400).send({ message: "Invalid email or password" });
+        return res.status(400).send({
+          message: "Usuario o contraseña incorrectos. Vuelve a intentarlo",
+        });
       }
 
       // Agregar lógica para verificar contraseña y generar token de acceso
@@ -210,6 +216,7 @@ const UserController = {
         username: req.user.username,
         password: req.user.password,
         chat: req.user.chat,
+        cargo: req.user.cargo,
         img: req.user.img,
       };
       res.send(user);
@@ -251,13 +258,6 @@ const UserController = {
 
   async recoverPassword(req, res) {
     try {
-      // const user = await User.findOne({
-      //   email: req.body.email,
-      // });
-      // //Si el usuario no acierta introduciendo el campo de email, devuelve este mensaje
-      // if (!user) {
-      //   return res.status(404).send({ message: "El usuario no es válido. Vuelve a intentarlo." });
-      // }
       const recoverToken = jwt.sign(
         { email: req.params.email },
         process.env.JWT_SECRET,
@@ -266,9 +266,11 @@ const UserController = {
         }
       );
       function base64UrlEncode(str) {
-        return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '').replace(/\./g, '¿');
-      };
-      const encodedToken = base64UrlEncode(recoverToken)
+        return str
+          .replace(/\+/g, "-")
+          .replace(/\./g, "¿");
+      }
+      const encodedToken = base64UrlEncode(recoverToken);
 
       const url = "http://localhost:5173/recoverPass/" + encodedToken;
       // + recoverToken;
@@ -280,7 +282,8 @@ const UserController = {
           The link will expire in 48 hours`,
       });
       res.send({
-        message: "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
+        message:
+          "Revisa la bandeja de tu correo corporativo. Te hemos mandado un mail para recuperar la contraseña.",
       });
     } catch (error) {
       console.error(error);
@@ -290,8 +293,12 @@ const UserController = {
   async resetPassword(req, res) {
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      const recoverToken = req.params.recoverToken;     
-      const payload = jwt.verify(recoverToken, process.env.JWT_SECRET);
+      const recoverToken = req.params.recoverToken;
+      function base64UrlDecode(str) {
+        return str.replace(/-/g, "+").replace(/¿/g, ".");
+      }
+      const decodedToken = base64UrlDecode(recoverToken);
+      const payload = jwt.verify(decodedToken, process.env.JWT_SECRET);
       await User.findOneAndUpdate(
         { email: payload.email },
         { password: hashedPassword }
@@ -299,7 +306,9 @@ const UserController = {
       res.send({ message: "Contraseña cambiada con éxito" });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Error al cambiar la contraseña" });
+      res
+        .status(500)
+        .send({ message: "Error al cambiar la contraseña", error });
     }
   },
 
@@ -309,7 +318,9 @@ const UserController = {
       const event = await Event.findById(req.params._id);
 
       if (event.attendees.includes(req.user._id)) {
-        return res.status(400).send({ message: "You already liked this event" });
+        return res
+          .status(400)
+          .send({ message: "You already liked this event" });
       }
 
       event.attendees.push(req.user._id);
@@ -335,7 +346,9 @@ const UserController = {
       const notice = await Notice.findById(req.params._id);
 
       if (notice.likesUsers.includes(req.user._id)) {
-        return res.status(400).send({ message: "You already liked this notice" });
+        return res
+          .status(400)
+          .send({ message: "You already liked this notice" });
       }
 
       notice.likesUsers.push(req.user._id);
@@ -361,7 +374,9 @@ const UserController = {
       const notice = await Notice.findById(req.params._id);
 
       if (!notice.likesUsers.includes(req.user._id)) {
-        return res.status(400).send({ message: "You have not liked this notice" });
+        return res
+          .status(400)
+          .send({ message: "You have not liked this notice" });
       }
 
       notice.likesUsers = notice.likesUsers.filter(
@@ -378,7 +393,9 @@ const UserController = {
       res.status(200).send({ message: "You have unliked the notice", notice });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem unliking the notice" });
+      res
+        .status(500)
+        .send({ message: "There was a problem unliking the notice" });
     }
   },
 
@@ -388,7 +405,9 @@ const UserController = {
       const comment = await Comment.findById(req.params._id);
 
       if (comment.likesUserC.includes(req.user._id)) {
-        return res.status(400).send({ message: "You already liked this comment" });
+        return res
+          .status(400)
+          .send({ message: "You already liked this comment" });
       }
 
       comment.likesUserC.push(req.user._id);
@@ -414,7 +433,9 @@ const UserController = {
       const comment = await Comment.findById(req.params._id);
 
       if (!comment.likesUserC.includes(req.user._id)) {
-        return res.status(400).send({ message: "You have not liked this comment" });
+        return res
+          .status(400)
+          .send({ message: "You have not liked this comment" });
       }
 
       comment.likesUserC = comment.likesUserC.filter(
@@ -428,14 +449,16 @@ const UserController = {
         { new: true }
       );
 
-      res.status(200).send({ message: "You have unliked the comment", comment });
+      res
+        .status(200)
+        .send({ message: "You have unliked the comment", comment });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "There was a problem unliking the comment" });
+      res
+        .status(500)
+        .send({ message: "There was a problem unliking the comment" });
     }
   },
-
-
 
   //NO SE ESTÁN USANDO PERO SE PODRÍAN USAR EN UN FUTURO
 
@@ -537,7 +560,6 @@ const UserController = {
         .json({ message: "There was a problem getting the user info" });
     }
   },
-
 };
 
 module.exports = UserController;
