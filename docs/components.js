@@ -34,23 +34,39 @@ module.exports = {
             comment: {
                 type: 'object',
                 properties: {
-                    _id: {
+                    userId: {
                         type: 'objectId',
-                        description: "task identification number",
+                        description: "ID of the USER logged and allowed to comment ",
                         example: "6201064b0028de7866e2b2c4"
                     },
-                    title: {
+                    body: {
                         type: 'string',
-                        description: "task's title",
-                        example: "make an excellent readme"
+                        description: "Content of the comment",
+                        example: "El evento de Google fué realmente inspirador y superó mis expectativas"
                     },
-                    completed: {
-                        type: "boolean",
-                        description: "The status of the task",
-                        example: false
-                    }
+                    noticeId: {
+                        type: 'objectId',
+                        description: "ID of the NOTICE which user wants to comment",
+                        example: "648349af53f64d7139943751"
+                    },
+                    // likesUserC: {
+                    //     type: 'array',
+                    //     description: "Array of User Id's",
+                    //     format: "string",
+                    //     example: ["647b5bd25aeb4ab6eebf0723", "647b5bf55aeb4ab6eebf0725", "647b5bd25aeb4ab6eebf0723"],
+
+                    // },
+                    likesUserC: {
+                        type: 'array',
+                        description: "Array of User Id's",
+                        items: {
+                          type: 'string',
+                          format: 'objectId'
+                        },
+                        example: ["647b5bd25aeb4ab6eebf0723", "647b5bf55aeb4ab6eebf0725", "647b5bd25aeb4ab6eebf0723"]
+                      }
                 }
-        },
+            },
         }
     }
 }
