@@ -95,6 +95,7 @@ const UserController = {
           userType: userType,
           degree: degree,
           interest: req.body.interest,
+          bio: req.body.bio,
         },
         { new: true }
       );
