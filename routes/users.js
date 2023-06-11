@@ -26,6 +26,8 @@ router.get("/getUserFollowersInfo", authentication, UserController.getUserFollow
 router.get('/recoverPassword/:email', UserController.recoverPassword);
 router.put('/resetPassword/:recoverToken', UserController.resetPassword);
 router.post('/addcontact', authentication, UserController.addContact);
+router.put('/makecontactfavourite', authentication, UserController.makeContactFavourite);
+router.put('/undocontactfavourite', authentication, UserController.undoContactFavourite);
 
 
 module.exports = router;

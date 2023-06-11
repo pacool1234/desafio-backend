@@ -554,7 +554,6 @@ const UserController = {
     }
   },
 
-  // Endpoint made by PACO
   async addContact(req, res) {
     try {
       const contactObject = {
@@ -566,12 +565,46 @@ const UserController = {
           contacts: contactObject
         }});
 
-      res.send({ message: `USer with ID: ${req.body.userId} added to contacts` });
+      res.send({ message: `User with ID: ${req.body.userId} added to contacts` });
     } catch (error) {
       console.error(error);
       res
         .status(500)
         .send({ message: "There was a problem when adding contact", error });
+    }
+  },
+
+  async makeContactFavourite(req, res) {
+    try {
+        const user = await User.findOneAndUpdate(
+          { _id: req.user._id, "contacts.userId": req.body.userId }, 
+          { $set: { 'contacts.$.favourite': true } }, 
+          { new: true },
+      );
+
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem when making contact a favourite", error });
+    }
+  },
+
+  async undoContactFavourite(req, res) {
+    try {
+        await User.findOneAndUpdate(
+          { _id: req.user._id, "contacts.userId": req.body.userId }, 
+          { $set: { 'contacts.$.favourite': true } }, 
+          { new: false },
+      );
+
+      res.send({ message: `USer with ID: ${req.body.userId} is no longer one of your favourites` });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem when making contact a favourite", error });
     }
   },
 };
