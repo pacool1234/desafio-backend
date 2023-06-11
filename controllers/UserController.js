@@ -62,6 +62,7 @@ const UserController = {
   // Update a user
   async update(req, res, next) {
     try {
+      let data = { ...req.body };
       const authenticatedUserId = req.user._id;
       const userToUpdateId = req.params._id;
 
@@ -71,34 +72,18 @@ const UserController = {
           .send({ message: "You do not have permission to update this user" });
       }
 
-      if (req.body.password) {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      }
-
-      let imgPath;
       if (req.file) {
-        imgPath = req.file.path;
+        data.img = req.file.path;
       }
 
-      const degree = await Degree.findById(req.body.degree);
-      const userType = await UserType.findById(req.body.userType);
-      const user = await User.findByIdAndUpdate(
-        userToUpdateId,
-        {
-          username: req.body.username,
-          email: req.body.email,
-          // password: hashedPassword,
-          age: req.body.age,
-          gender: req.body.gender,
-          linkedIn: req.body.linkedIn,
-          img: imgPath,
-          userType: userType,
-          degree: degree,
-          interest: req.body.interest,
-          bio: req.body.bio,
-        },
-        { new: true }
-      );
+      delete data.password;
+      delete data.role;
+      delete data.confirmed;
+      delete data.tokens;
+
+      const user = await User.findByIdAndUpdate(userToUpdateId, data, {
+        new: true,
+      });
 
       res.send({ message: "User successfully updated", user });
     } catch (error) {
@@ -140,7 +125,9 @@ const UserController = {
           process.env.JWT_SECRET,
           { expiresIn: "48h" }
         );
-        const url = "https://desafio-backend-production.up.railway.app/users/confirm/" + emailToken;
+        const url =
+          "https://desafio-backend-production.up.railway.app/users/confirm/" +
+          emailToken;
         //Esta es la orden del envío de correo al usuario para su validación
         await transporter.sendMail({
           to: req.body.email,
@@ -268,8 +255,7 @@ const UserController = {
         }
       );
       function base64UrlEncode(str) {
-        return str
-          .replace(/\./g, "¿");
+        return str.replace(/\./g, "¿");
       }
       const encodedToken = base64UrlEncode(recoverToken);
 
@@ -569,11 +555,14 @@ const UserController = {
         favourite: false,
       };
       await User.findByIdAndUpdate(req.user._id, {
-        $push: { 
-          contacts: contactObject
-        }});
+        $push: {
+          contacts: contactObject,
+        },
+      });
 
-      res.send({ message: `User with ID: ${req.body.userId} added to contacts` });
+      res.send({
+        message: `User with ID: ${req.body.userId} added to contacts`,
+      });
     } catch (error) {
       console.error(error);
       res
@@ -584,10 +573,10 @@ const UserController = {
 
   async makeContactFavourite(req, res) {
     try {
-        const user = await User.findOneAndUpdate(
-          { _id: req.user._id, "contacts.userId": req.body.userId }, 
-          { $set: { 'contacts.$.favourite': true } }, 
-          { new: true },
+      const user = await User.findOneAndUpdate(
+        { _id: req.user._id, "contacts.userId": req.body.userId },
+        { $set: { "contacts.$.favourite": true } },
+        { new: true }
       );
 
       res.send(user);
@@ -595,24 +584,32 @@ const UserController = {
       console.error(error);
       res
         .status(500)
-        .send({ message: "There was a problem when making contact a favourite", error });
+        .send({
+          message: "There was a problem when making contact a favourite",
+          error,
+        });
     }
   },
 
   async undoContactFavourite(req, res) {
     try {
-        await User.findOneAndUpdate(
-          { _id: req.user._id, "contacts.userId": req.body.userId }, 
-          { $set: { 'contacts.$.favourite': true } }, 
-          { new: false },
+      await User.findOneAndUpdate(
+        { _id: req.user._id, "contacts.userId": req.body.userId },
+        { $set: { "contacts.$.favourite": true } },
+        { new: false }
       );
 
-      res.send({ message: `USer with ID: ${req.body.userId} is no longer one of your favourites` });
+      res.send({
+        message: `USer with ID: ${req.body.userId} is no longer one of your favourites`,
+      });
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({ message: "There was a problem when making contact a favourite", error });
+        .send({
+          message: "There was a problem when making contact a favourite",
+          error,
+        });
     }
   },
 };
