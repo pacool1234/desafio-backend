@@ -1,6 +1,17 @@
 module.exports = {
     components: {
         schemas: {
+            degree: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        required: true ,
+                        description: "Name of studies DEGREE of the User",
+                        example: "Bootcapm"
+                    },
+                }
+            },
             tag: {
                 type: 'object',
                 properties: {
@@ -49,22 +60,35 @@ module.exports = {
                         description: "ID of the NOTICE which user wants to comment",
                         example: "648349af53f64d7139943751"
                     },
-                    // likesUserC: {
-                    //     type: 'array',
-                    //     description: "Array of User Id's",
-                    //     format: "string",
-                    //     example: ["647b5bd25aeb4ab6eebf0723", "647b5bf55aeb4ab6eebf0725", "647b5bd25aeb4ab6eebf0723"],
-
-                    // },
                     likesUserC: {
                         type: 'array',
                         description: "Array of User Id's",
                         items: {
-                          type: 'string',
-                          format: 'objectId'
+                            type: 'string',
+                            format: 'objectId'
                         },
                         example: ["647b5bd25aeb4ab6eebf0723", "647b5bf55aeb4ab6eebf0725", "647b5bd25aeb4ab6eebf0723"]
-                      }
+                    }
+                }
+            },
+            chat: {
+                type: 'object',
+                properties: {
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'string'
+                        }
+                    },
+                    history: {
+                        type: 'array',
+                        description: "Array of User messages",
+                        items: {
+                            type: 'string',
+                            format: 'string'
+                        },
+                        example: ["Message1", "Message2", "Message3"]
+                    }
                 }
             },
         }
