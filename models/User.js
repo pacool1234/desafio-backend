@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema(
       userType: { type: ObjectId, ref: "UserType" },
       cargo: String,
       skills: { type: ObjectId, ref: "Skill" },
-      hobbies: { type: ObjectId, ref: "Hobby" },
+      hobbies: [{ type: ObjectId, ref: "Hobby" }],
       interest: [{ type: ObjectId, ref: "Tag" }],
       chat: [{ type: ObjectId, ref: "Chat" }],
       // postIds: [{ type: ObjectId, ref: "Post" }],
