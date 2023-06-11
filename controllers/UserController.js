@@ -94,6 +94,7 @@ const UserController = {
           img: imgPath,
           userType: userType,
           degree: degree,
+          interest: req.body.interest,
         },
         { new: true }
       );
