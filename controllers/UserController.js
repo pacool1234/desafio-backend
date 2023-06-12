@@ -206,6 +206,7 @@ const UserController = {
         .populate("skills")
         .populate("hobbies")
         .populate("interest")
+        .populate("chat")
         .populate("contacts.userId", "username email cargo img");
       res.send(user);
     } catch (error) {
@@ -226,6 +227,7 @@ const UserController = {
         .populate("skills")
         .populate("hobbies")
         .populate("interest")
+        .populate("chat")
         .populate("contacts.userId", "username email cargo img");
       if (!user) {
         return res.status(404).send({ message: "User not found" });
