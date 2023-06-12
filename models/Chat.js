@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const userId = {
@@ -6,16 +6,18 @@ const userId = {
   ref: "User",
 };
 
-
-const ChatSchema = new mongoose.Schema({
-
-    users: [ userId ],
-    
+const ChatSchema = new mongoose.Schema(
+  {
+    users: [userId],
     history: {
-        type: Array
+      type: Array,
     },
+    read: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
-
-}, { timestamps: true });
-
-module.exports = mongoose.model('Chat', ChatSchema);
+module.exports = mongoose.model("Chat", ChatSchema);
