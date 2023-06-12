@@ -1,45 +1,24 @@
 module.exports = {
     components: {
         schemas: {
-            degree: {
+            chat: {
                 type: 'object',
                 properties: {
-                    name: {
-                        type: 'string',
-                        required: true ,
-                        description: "Name of studies DEGREE of the User",
-                        example: "Bootcapm"
+                    users: {
+                        type: 'array',
+                        items: {
+                            type: 'string'
+                        }
                     },
-                }
-            },
-            tag: {
-                type: 'object',
-                properties: {
-                    name: {
-                        type: 'string',
-                        description: "Name of the TAG used to label the Events",
-                        example: "Inteligencia Artificial"
-                    },
-                }
-            },
-            skill: {
-                type: 'object',
-                properties: {
-                    name: {
-                        type: 'string',
-                        description: "Name of the SKILL used to classify Agora Users",
-                        example: "Programación"
-                    },
-                }
-            },
-            hobby: {
-                type: 'object',
-                properties: {
-                    name: {
-                        type: 'string',
-                        description: "Name of the HOBBY used to classify Agora Users",
-                        example: "Cine"
-                    },
+                    history: {
+                        type: 'array',
+                        description: "Array of User messages",
+                        items: {
+                            type: 'string',
+                            format: 'string'
+                        },
+                        example: ["Message1", "Message2", "Message3"]
+                    }
                 }
             },
             comment: {
@@ -71,24 +50,45 @@ module.exports = {
                     }
                 }
             },
-            chat: {
+            degree: {
                 type: 'object',
                 properties: {
-                    users: {
-                        type: 'array',
-                        items: {
-                            type: 'string'
-                        }
+                    name: {
+                        type: 'string',
+                        required: true ,
+                        description: "Name of studies DEGREE of the User",
+                        example: "Bootcamp"
                     },
-                    history: {
-                        type: 'array',
-                        description: "Array of User messages",
-                        items: {
-                            type: 'string',
-                            format: 'string'
-                        },
-                        example: ["Message1", "Message2", "Message3"]
-                    }
+                }
+            },
+            hobby: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the HOBBY used to classify Agora Users",
+                        example: "Cine"
+                    },
+                }
+            },
+            skill: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the SKILL used to classify Agora Users",
+                        example: "Programación"
+                    },
+                }
+            },
+            tag: {
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'string',
+                        description: "Name of the TAG used to label the Events",
+                        example: "Inteligencia Artificial"
+                    },
                 }
             },
         }

@@ -3,18 +3,18 @@ module.exports = {
         "/tags/create": {
             post: {
                 tags: {
-                    Tasks: "Get Tasks",
+                    Tasks: "Create Tag",
                 },
-                description: "Get tasks",
-                operationId: "getTasks",
+                description: "Endpoint to create a TAG",
+                operationId: "createTag",
                 parameters: [],
                 responses: {
                     200: {
-                        description: "Tasks were obtained",
+                        description: "TAG was successfully created",
                         content: {
                             "application/json": {
                                 schema: {
-                                    $ref: "#/components/schemas/task",
+                                    $ref: "#/components/schemas/tag",
                                 },
                             },
                         },
