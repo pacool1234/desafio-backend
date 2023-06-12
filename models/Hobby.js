@@ -5,6 +5,6 @@ const HobbySchema = new mongoose.Schema({
      }, { timestamps: true }
 );
 
-const Hobby = mongoose.model("hobby", HobbySchema);
+const Hobby = mongoose.model("Hobby", HobbySchema);
 
 module.exports = Hobby;

@@ -62,6 +62,7 @@ const UserController = {
   // Update a user
   async update(req, res, next) {
     try {
+      let data = { ...req.body };
       const authenticatedUserId = req.user._id;
       const userToUpdateId = req.params._id;
 
@@ -71,32 +72,18 @@ const UserController = {
           .send({ message: "You do not have permission to update this user" });
       }
 
-      if (req.body.password) {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      }
-
-      let imgPath;
       if (req.file) {
-        imgPath = req.file.path;
+        data.img = req.file.path;
       }
 
-      const degree = await Degree.findById(req.body.degree);
-      const userType = await UserType.findById(req.body.userType);
-      const user = await User.findByIdAndUpdate(
-        userToUpdateId,
-        {
-          username: req.body.username,
-          email: req.body.email,
-          // password: hashedPassword,
-          age: req.body.age,
-          gender: req.body.gender,
-          linkedIn: req.body.linkedIn,
-          img: imgPath,
-          userType: userType,
-          degree: degree,
-        },
-        { new: true }
-      );
+      delete data.password;
+      delete data.role;
+      delete data.confirmed;
+      delete data.tokens;
+
+      const user = await User.findByIdAndUpdate(userToUpdateId, data, {
+        new: true,
+      });
 
       res.send({ message: "User successfully updated", user });
     } catch (error) {
@@ -138,7 +125,9 @@ const UserController = {
           process.env.JWT_SECRET,
           { expiresIn: "48h" }
         );
-        const url = "https://desafio-backend-production.up.railway.app/users/confirm/" + emailToken;
+        const url =
+          "https://desafio-backend-production.up.railway.app/users/confirm/" +
+          emailToken;
         //Esta es la orden del envío de correo al usuario para su validación
         await transporter.sendMail({
           to: req.body.email,
@@ -211,27 +200,35 @@ const UserController = {
   // Endpoint get authenticated user
   async getUser(req, res) {
     try {
-      const user = {
-        email: req.user.email,
-        username: req.user.username,
-        password: req.user.password,
-        chat: req.user.chat,
-        cargo: req.user.cargo,
-        img: req.user.img,
-      };
+      const user = await User.findById(req.user._id)
+        .populate("degree")
+        .populate("userType")
+        .populate("skills")
+        .populate("hobbies")
+        .populate("interest")
+        .populate("chat")
+        .populate("contacts.userId", "username email cargo img");
       res.send(user);
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({ error: "An error occurred while getting user information" });
+        // .send({ error: "An error occurred while getting user information" });
+        .send(error);
     }
   },
 
   // get user by Id
   async getById(req, res, next) {
     try {
-      const user = await User.findById(req.params._id);
+      const user = await User.findById(req.params._id)
+        .populate("degree")
+        .populate("userType")
+        .populate("skills")
+        .populate("hobbies")
+        .populate("interest")
+        .populate("chat")
+        .populate("contacts.userId", "username email cargo img");
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
@@ -266,8 +263,7 @@ const UserController = {
         }
       );
       function base64UrlEncode(str) {
-        return str
-          .replace(/\./g, "¿");
+        return str.replace(/\./g, "¿");
       }
       const encodedToken = base64UrlEncode(recoverToken);
 
@@ -557,6 +553,71 @@ const UserController = {
       res
         .status(500)
         .json({ message: "There was a problem getting the user info" });
+    }
+  },
+
+  async addContact(req, res) {
+    try {
+      const contactObject = {
+        userId: req.body.userId,
+        favourite: false,
+      };
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: {
+          contacts: contactObject,
+        },
+      });
+
+      res.send({
+        message: `User with ID: ${req.body.userId} added to contacts`,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "There was a problem when adding contact", error });
+    }
+  },
+
+  async makeContactFavourite(req, res) {
+    try {
+      const user = await User.findOneAndUpdate(
+        { _id: req.user._id, "contacts.userId": req.body.userId },
+        { $set: { "contacts.$.favourite": true } },
+        { new: true }
+      );
+
+      res.send(user);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({
+          message: "There was a problem when making contact a favourite",
+          error,
+        });
+    }
+  },
+
+  async undoContactFavourite(req, res) {
+    try {
+      await User.findOneAndUpdate(
+        { _id: req.user._id, "contacts.userId": req.body.userId },
+        { $set: { "contacts.$.favourite": true } },
+        { new: false }
+      );
+
+      res.send({
+        message: `USer with ID: ${req.body.userId} is no longer one of your favourites`,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({
+          message: "There was a problem when making contact a favourite",
+          error,
+        });
     }
   },
 };
