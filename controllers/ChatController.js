@@ -5,9 +5,7 @@ const User = require("../models/User");
 const ChatController = {
   async create(req, res) {
     try {
-      if (req.body.history[0]) {
-        req.body.history[0].date = new Date();
-      }
+      req.body.history[0].date = new Date();
       const chat = await Chat.create(req.body);
       req.body.users.forEach(async (userId) => {
         await User.findByIdAndUpdate(userId, {
