@@ -20,7 +20,7 @@ const io = socketIo(server, {
 });
 
 app.use(express.json());
-app.use(express.static("./uploads")); //Necessary to get correct url in frontend
+app.use(express.static("./uploads")) //Necessary to get correct url in frontend
 
 
 app.use("/users", require("./routes/users"));
