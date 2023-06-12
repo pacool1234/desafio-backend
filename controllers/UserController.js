@@ -220,7 +220,13 @@ const UserController = {
   // get user by Id
   async getById(req, res, next) {
     try {
-      const user = await User.findById(req.params._id);
+      const user = await User.findById(req.params._id)
+        .populate("degree")
+        .populate("userType")
+        .populate("skills")
+        .populate("hobbies")
+        .populate("interest")
+        .populate("contacts.userId", "username email cargo img");
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
