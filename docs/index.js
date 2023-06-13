@@ -1,4 +1,4 @@
-const basicInfo = require('./basicInfo');
+const basicInfo = require('./basicInfo.js');
 const components = require('./components');
 const tags = require('./tags');
 
