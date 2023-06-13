@@ -43,7 +43,7 @@ const NoticeController = {
 
       async getById(req, res) {
         try {
-            const notice = await Notice.findById(req.params._id)
+            const notice = await Notice.findById(req.params._id).populate('commentIds')
             res.send(notice)
         } catch (error) {
             console.error(error);
