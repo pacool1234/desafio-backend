@@ -31,6 +31,38 @@ const EventController = {
     }
   },
 
+  async updateImage(req, res) {
+    try {
+      const eventId = req.params._id;
+      const { img } = req.body;
+  
+      const event = await Event.findByIdAndUpdate(
+        eventId,
+        { img },
+        { new: true }
+      );
+  
+      if (!event) {
+        return res.status(404).send({ message: 'Evento no encontrado' });
+      }
+  
+      if (req.file) {
+        event.img = req.file.filename;
+        await event.save();
+      }
+  
+        
+      res.send({ message: 'Producto actualizado correctamente' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Ha ocurrido un error al actualizar el producto' });
+    }
+  },
+  
+
+
+
+
 //ENDPOINT: GET EVENT BY ID
 async getById(req, res) {
   try {
