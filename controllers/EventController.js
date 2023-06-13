@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Tag = require("../models/Tag");
 
 const EventController = {
-
+//ENDPOINT: CREATE EVENT
   async create(req, res) {
     try {
       let imgPath;
@@ -31,7 +31,31 @@ const EventController = {
     }
   },
 
+//ENDPOINT: GET EVENT BY ID
+async getById(req, res) {
+  try {
+      const event = await Event.findById(req.params._id)
+      res.send(event)
+  } catch (error) {
+      console.error(error);
+  }
+},
 
+
+//ENDPOINT: GET ALL EVENTS
+
+async getAll(req, res) {
+  try {
+      const events = await Event.find();
+      res.send(events);
+  } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'There has been a problem showing ALL EVENTS' });
+  }
+},
+
+
+//ENDPOINT: DELETE EVENT
   async delete(req, res) {
     try {
       const event = await Event.findByIdAndDelete(req.params._id)

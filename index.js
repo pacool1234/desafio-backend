@@ -3,12 +3,15 @@ const http = require("http");
 const socketIo = require('socket.io');
 const cors = require("cors");
 const { dbConnection } = require("./config/config");
+const swaggerUI = require('swagger-ui-express') //SWAGGER
+const docs = require('./docs/index') //SWAGGER
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors());
+app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs)) //SWAGGER Api doc route
 
 const server = http.createServer(app);
 const io = socketIo(server, {
