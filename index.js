@@ -16,7 +16,7 @@ app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs)) //SWAGGER Api doc ro
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-      origin: "http://localhost:5173", // replace with your client's origin
+      origin: ["http://localhost:5173", "https://tripulaciones-frontend-fork-1.vercel.app"], // replace with your client's origin 
       methods: ["GET", "POST"],
       credentials: true
   }
