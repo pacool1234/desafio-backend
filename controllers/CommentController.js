@@ -1,5 +1,6 @@
 const Comment = require("../models/Comment");
 const Notice = require("../models/Notice");
+const User = require("../models/Notice");
 
 
 const CommentController = {
@@ -65,7 +66,7 @@ const CommentController = {
 
     async getAll(req, res) {
         try {
-            const comments = await Comment.find();
+            const comments = await Comment.find().populate('userId');
             res.send(comments);
         } catch (error) {
             console.error(error);

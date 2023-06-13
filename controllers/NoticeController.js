@@ -28,39 +28,52 @@ const NoticeController = {
         .send({ message: "There has been a problem creating the NOTICE" });
     }
   },
-    //ENDPOINT: UPDATE Notice
-    async update(req, res) {
-      try {
-          const notice = await Notice.findByIdAndUpdate(req.params._id, req.body,
-              { new: true })
-          res.send({ message: " This NOTICE has been successfully updated:", notice });
-      } catch (error) {
-          console.error(error);
-      }
+  //ENDPOINT: UPDATE Notice
+  async update(req, res) {
+    try {
+      const notice = await Notice.findByIdAndUpdate(req.params._id, req.body,
+        { new: true })
+      res.send({ message: " This NOTICE has been successfully updated:", notice });
+    } catch (error) {
+      console.error(error);
+    }
   },
 
-      //ENDPOINT:  GET Notice by ID
+  //ENDPOINT:  GET Notice by ID
 
-      async getById(req, res) {
-        try {
-            const notice = await Notice.findById(req.params._id)
-            res.send(notice)
-        } catch (error) {
-            console.error(error);
-        }
-    },
-      //ENDPOINT:  GET ALL Notices
+  async getById(req, res) {
+    try {
+      const notice = await Notice.findById(req.params._id)
+        .populate({
+          path: 'commentIds',
+          populate: {
+            path: 'userId',
+            select: 'username userType img',
+            populate: {
+              path: 'userType',
+            },
+          }
+        })
 
-    async getAll(req, res) {
-      try {
-        const notices = await Notice.find();
-        res.send(notices);
-      } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'There has been a problem showing ALL NOTICES' });
-      }
-    },
-    
+      res.send(notice);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'There has been a problem getting the notice' });
+    }
+  },
+
+  //ENDPOINT:  GET ALL Notices
+
+  async getAll(req, res) {
+    try {
+      const notices = await Notice.find();
+      res.send(notices);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'There has been a problem showing ALL NOTICES' });
+    }
+  },
+
 
   //ENDPOINT: DELETE Notice
   async delete(req, res) {
