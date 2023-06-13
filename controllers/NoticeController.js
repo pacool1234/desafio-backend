@@ -46,7 +46,6 @@ const NoticeController = {
       const notice = await Notice.findById(req.params._id)
         .populate({
           path: 'commentIds',
-          select: 'body',
           populate: {
             path: 'userId',
             select: 'username userType img',
