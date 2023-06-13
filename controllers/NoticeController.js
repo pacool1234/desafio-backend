@@ -46,22 +46,24 @@ const NoticeController = {
       const notice = await Notice.findById(req.params._id)
         .populate({
           path: 'commentIds',
-          select:'body',
           populate: {
             path: 'userId',
             select: 'username userType img',
             populate: {
               path: 'userType',
             },
-          }
+          },
+          select: 'body',
         })
-
+        .populate('userId');
+  
       res.send(notice);
     } catch (error) {
       console.error(error);
       res.status(500).send({ message: 'There has been a problem getting the notice' });
     }
   },
+  
 
   //ENDPOINT:  GET ALL Notices
 
