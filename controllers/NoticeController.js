@@ -48,10 +48,12 @@ const NoticeController = {
           path: 'commentIds',
           populate: {
             path: 'userId',
-            select: 'username userType img' // Selecciona los campos del usuario que deseas incluir
-          },
+            select: 'username userType img',
+            populate: {
+              path: 'userType',
+            },
+          }
         })
-        .populate('userId');
 
       res.send(notice);
     } catch (error) {
