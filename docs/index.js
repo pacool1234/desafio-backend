@@ -6,6 +6,5 @@ module.exports = {
 ...basicInfo ,
 ...components ,
 ...tags
-
 };
 
