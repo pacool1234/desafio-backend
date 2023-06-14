@@ -207,7 +207,7 @@ const UserController = {
         .populate("hobbies")
         .populate("interest")
         .populate("chat")
-        .populate("contacts.userId", "username email cargo img");
+        .populate("contacts");
       res.send(user);
     } catch (error) {
       console.error(error);
@@ -228,7 +228,7 @@ const UserController = {
         .populate("hobbies")
         .populate("interest")
         .populate("chat")
-        .populate("contacts.userId", "username email cargo img");
+        .populate("contacts");
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
@@ -558,13 +558,9 @@ const UserController = {
 
   async addContact(req, res) {
     try {
-      const contactObject = {
-        userId: req.body.userId,
-        favourite: false,
-      };
       await User.findByIdAndUpdate(req.user._id, {
         $push: {
-          contacts: contactObject,
+          contacts: req.body.userId,
         },
       });
 
@@ -579,47 +575,25 @@ const UserController = {
     }
   },
 
-  async makeContactFavourite(req, res) {
+  async removeContact(req, res) {
     try {
-      const user = await User.findOneAndUpdate(
-        { _id: req.user._id, "contacts.userId": req.body.userId },
-        { $set: { "contacts.$.favourite": true } },
-        { new: true }
-      );
-
-      res.send(user);
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .send({
-          message: "There was a problem when making contact a favourite",
-          error,
-        });
-    }
-  },
-
-  async undoContactFavourite(req, res) {
-    try {
-      await User.findOneAndUpdate(
-        { _id: req.user._id, "contacts.userId": req.body.userId },
-        { $set: { "contacts.$.favourite": true } },
-        { new: false }
-      );
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: {
+          contacts: req.body.userId,
+        },
+      });
 
       res.send({
-        message: `USer with ID: ${req.body.userId} is no longer one of your favourites`,
+        message: `User with ID: ${req.body.userId} removed from contacts`,
       });
     } catch (error) {
       console.error(error);
       res
         .status(500)
-        .send({
-          message: "There was a problem when making contact a favourite",
-          error,
-        });
+        .send({ message: "There was a problem when removing contact", error });
     }
   },
+
 };
 
 module.exports = UserController;

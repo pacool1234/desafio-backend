@@ -1,18 +1,6 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
-const ContactSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    favourite: {
-        type: Boolean,
-        default: false
-    }
-});
-
 const UserSchema = new mongoose.Schema(
     {
         username: {
@@ -52,7 +40,7 @@ const UserSchema = new mongoose.Schema(
         followers: [{ type: ObjectId, ref: 'User' }],
         following: [{ type: ObjectId, ref: 'User' }],
         img: String,
-        contacts: [ContactSchema],
+        contacts: [{ type: ObjectId, ref: 'User' }],
         backgroundImg: String,
     },
     { timestamps: true }
