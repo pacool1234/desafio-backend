@@ -78,11 +78,17 @@ async getById(req, res) {
 
 async getAll(req, res) {
   try {
-      const events = await Event.find();
-      res.send(events);
+    const notices = await Event.find()
+      .populate({
+        path: 'eventTags',
+        select: 'name',
+      })
+      .exec();
+
+    res.send(notices);
   } catch (error) {
-      console.error(error);
-      res.status(500).send({ message: 'There has been a problem showing ALL EVENTS' });
+    console.error(error);
+    res.status(500).send({ message: 'There has been a problem showing ALL NOTICES' });
   }
 },
 
