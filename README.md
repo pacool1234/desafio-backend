@@ -41,6 +41,7 @@
 ## DOCUMENTACIÓN
 
 >La documentación de los endpoints de la API se ha hecho en este documento por la incompatibilidad citada más abajo. 
+>A tal efecto, hemos documentado más abajo algunos endpoints de la API de la webApp Ágora.
 
 > __Note__
 No es posible proporcionar ningún vínculo de testing de SWAGGER porque el despliegue en railway creaba problemas con el archivo *basicInfo.js*
@@ -59,15 +60,16 @@ El departamento de Ciberseguridad requiere que se cree una base de datos paralel
 
 | ACCÍON  | OPERACIÓN CRUD | RUTA
 | :-----------:   | :---------- | :----------- |
-|Crear usuario | POST  | localhost:8080/users/register|
+|Devolver usuario autenticado | GET  | localhost:8080/users/getUser|
 
+>Params -> User_ID
 >Body-> raw (json)
 ```js
 {
-    "name":"Sofia",
     "email": "sofia@sofia.com",
+    "username":"Sofia",
     "password": "123456",
-    "age":"25"
+    "cargo" : "Estudiante"
 }
 ```
 | ACCÍON  | OPERACIÓN CRUD | RUTA
@@ -101,7 +103,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 |Eliminar usuario | DELETE | localhost:8080/users/deleteUserById/|
 
 > __Warning__
-Se requiere estar logueado como ADMIN para realizar esta operación.
+Se requiere token
 
 >HEADERS -> Authorisation
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
@@ -115,12 +117,12 @@ Se requiere estar logueado como ADMIN para realizar esta operación.
 >Params -> User_ID
 '644652ed8c643dc5abe8eb46'
 
-## ENDPOINTS de la Colección: Publicaciones
+## ENDPOINTS de la Colección: Noticias
 [⬆️](#índice)
 
 | ACCÍON  | OPERACIÓN CRUD | RUTA
 | :-----------:   | :---------- | :----------- |
-|Crear publicación | POST | localhost:8080/posts/create|
+|Crear noticia | POST | localhost:8080/notices/create|
 
 >HEADERS -> Authorisation
 
@@ -130,13 +132,13 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 ```js
 {
     "title": "Sofia, the alumni killer",
-    "body": "Y si...olvidó mi cumple",
-    "userId" :"644652ed8c643dc5abe8eb46"
+    "description": "Y si...olvidó mi cumple",
+    
 }
 ```
 | ACCÍON  | OPERACIÓN CRUD | RUTA
 | :-----------:   | :---------- | :----------- |
-|Actualizar publicación | PUT | localhost:8080/posts/update/|
+|Actualizar noticia | PUT | localhost:8080/posts/update/|
 
 >HEADERS -> Authorisation
 
@@ -146,12 +148,23 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 ```js
 {
     "title": "Post 2 UPDATED",
-    "body": "Así vemos QUE SÍ varia este contenido"
+    "description": "Así vemos QUE SÍ varia este contenido"
 }
 ```
 | ACCÍON  | OPERACIÓN CRUD | RUTA
 | :-----------:   | :---------- | :----------- |
-|Borrar publicación | DELETE | localhost:8080/posts/delete/|
+|Borrar noticia | DELETE | localhost:8080/posts/delete/|
+
+
+>HEADERS -> Authorisation
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
+
+>Params -> Notice_ID
+'644672e7725ae01cac4808f0'
+
+| ACCÍON  | OPERACIÓN CRUD | RUTA
+| :-----------:   | :---------- | :----------- |
+|Mostrar noticia por ID | GET | localhost:8080/posts/postsById/|
 
 
 >HEADERS -> Authorisation
@@ -160,55 +173,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 >Params -> Publicación_ID
 '644672e7725ae01cac4808f0'
 
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Mostrar publicación por ID | GET | localhost:8080/posts/postsById/|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
->Params -> Publicación_ID
-'644672e7725ae01cac4808f0'
-
 
 | ACCÍON  | OPERACIÓN CRUD | RUTA
 | :-----------:   | :---------- | :----------- |
-|Mostrar publicación por título | GET | localhost:8080/posts/postsByTitle|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
->Params -> Título
-'Palabras que contengan título'
-
-
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Todas los usuarios+publ+coment | GET | localhost:8080/posts/getAllPosts|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
-
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Ver publicaciones paginadas | GET | localhost:8080/posts/getPostsPaginated?page=1&limit=10|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
->Params -> 
--page : 1
--limit: 10
-
-
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Dar LIKE a publicación | PUT | localhost:8080/posts/likes/|
+|Dar LIKE a noticia | PUT | localhost:8080/notices/likes/|
 
 
 >HEADERS -> Authorisation
@@ -216,63 +184,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 
 >Params -> Publicación_ID
 
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Quitar LIKE a publicación | DELETE | localhost:8080/posts/dislike/|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
->Params -> Publicación_ID
-
-
-## ENDPOINTS de la Colección: Comentarios
-[⬆️](#índice)
-
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Crear comentario | POST | localhost:8080/comments/create|
-
->HEADERS -> Authorisation
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA
-
->Body-> raw (json)
-```js
-{
-    "commentTitle" : "Comentario para borrar",
-    "commentBody": "Comentario para borrar",
-    "userId": "644652ed8c643dc5abe8eb46",
-    "postId" : "644672b7725ae01cac4808ed"
-}
-```
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Borrar comentario | DELETE | localhost:8080/comments/delete/|
-
-
->HEADERS -> Authorisation
-'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA'
-
->Params -> Comentario_ID
-
-| ACCÍON  | OPERACIÓN CRUD | RUTA
-| :-----------:   | :---------- | :----------- |
-|Crear comentario por ID public.| POST | localhost:8080/comments/commentByPostId/|
-
->HEADERS -> Authorisation
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDYiLCJpYXQiOjE2ODIzMzA5MzR9.5bva2ATkY3EnTk6MupZQdz87Hb7YXxivv7tdQqs0EKA
-
->Body-> raw (json)
-```js
-{
-    "commentTitle" : "Comentario KILLER ",
-    "commentBody": "Es mentira"
-}
-
-```
 
 ***
 # Herramientas empleadas en el proyecto (TOOLSET) ⚙️
