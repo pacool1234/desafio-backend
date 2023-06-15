@@ -9,6 +9,7 @@ router.put('/updateimg/:_id',uploadEventsImg.single('img'),EventController.updat
 router.delete('/delete/:_id',EventController.delete)
 router.get('/getEventById/:_id',EventController.getById)
 router.get('/getAll',EventController.getAll)
+router.put('/update/:_id',EventController.update)
 
 
 module.exports = router;
