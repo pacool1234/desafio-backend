@@ -213,10 +213,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 
 **Guillermo Soler** - | *Coding* | - [GuilleSoler87](https://github.com/GuilleSoler87)
 
-**Francisco Niederleytner
-** - | *Coding* | - [pacool1234](https://github.com/pacool1234)
+**Francisco Niederleytner** - | *Coding* | - [pacool1234](https://github.com/pacool1234)
 
-***
+
 **Joan Baldó** - | *Coding* | - [joanbaldo](https://github.com/joanbaldo)
 
 ***
