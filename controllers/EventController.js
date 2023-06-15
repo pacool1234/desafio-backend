@@ -52,10 +52,10 @@ const EventController = {
       }
   
         
-      res.send({ message: 'Producto actualizado correctamente' });
+      res.send({ message: 'Evento actualizado correctamente' });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: 'Ha ocurrido un error al actualizar el producto' });
+      res.status(500).send({ message: 'Ha ocurrido un error al actualizar el evento' });
     }
   },
   

@@ -596,6 +596,34 @@ const UserController = {
     }
   },
 
+  async updateImage(req, res) {
+    try {
+      const userId = req.params._id;
+      const { img } = req.body;
+  
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { img },
+        { new: true }
+      );
+  
+      if (!user) {
+        return res.status(404).send({ message: 'Usuario no encontrado' });
+      }
+  
+      if (req.file) {
+        user.img = req.file.filename;
+        await user.save();
+      }
+  
+        
+      res.send({ message: 'Usuario actualizado correctamente' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: 'Ha ocurrido un error al actualizar el usuario' });
+    }
+  },
+
 };
 
 module.exports = UserController;

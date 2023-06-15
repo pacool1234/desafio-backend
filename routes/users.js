@@ -27,6 +27,6 @@ router.get('/recoverPassword/:email', UserController.recoverPassword);
 router.put('/resetPassword/:recoverToken', UserController.resetPassword);
 router.post('/addcontact', authentication, UserController.addContact);
 router.post('/removecontact', authentication, UserController.removeContact);
-
+router.put('/updateimg/:_id',uploadUserImg.single('img'), UserController.updateImage)
 
 module.exports = router;
