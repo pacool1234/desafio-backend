@@ -66,6 +66,16 @@ async getAll(req, res) {
       res.status(500).send({ message: 'There has been a problem deleting the EVENT' })
     }
   },
+    //ENDPOINT: UPDATE EVENT
+    async update(req, res) {
+      try {
+          const event = await Event.findByIdAndUpdate(req.params._id, req.file,
+              { new: true })
+          res.send({ message: " This EVENT has been successfully updated:", event });
+      } catch (error) {
+          console.error(error);
+      }
+  },
 
 
 };
