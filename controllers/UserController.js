@@ -207,6 +207,7 @@ const UserController = {
         .populate("hobbies")
         .populate("interest")
         .populate("chat")
+        .populate("suscriptions")
         .populate("contacts");
       res.send(user);
     } catch (error) {
