@@ -188,55 +188,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 ***
 # Herramientas empleadas en el proyecto (TOOLSET) ⚙️
 
--Github (dónde alojamos repositorios)
-
--Node (entorno de ejecución para ejecutar JavaScript en la parte del servidor):
-	-Versión: 18.16.0 
- 	-Doc: https://nodejs.org/dist/latest-v18.x/docs/api/ 
-
--Express (es un framework para Node Js)
-	-Versión: 4,18,2
-	-Doc: https://expressjs.com/en/4x/api.html 
-
--Mongoose (ODM Ayuda a modelar una base de datos de MONGODB de manera sencilla)
-	-Versión: 7.2.2
-	-Doc: https://mongoosejs.com/docs/guide.html 
-
--Sequelize (ORM Ayuda a modelar una base de datos de MySQL de manera sencilla)
-	-Versión: 
-	-Doc: https://sequelize.org/api/v6/identifiers.html 
-	-Security: https://github.com/sequelize/sequelize/blob/main/SECURITY.md 
-
--Multer (middleware que permite la subida de documentos e imágenes a través de formulario)
-	-Versión: 1.4.5-lts.1 
-	-Doc: https://github.com/expressjs/multer/blob/master/doc/README-es.md 
--DOTENV (herramienta para asignar variables de entorno a valores que queremos ocultar -como el puerto, clave de token etc, y evitar que se suban a repositorios /publicarlas )
-	-Versión: 16.1.3
-	-Doc: https://www.npmjs.com/package/dotenv 
-
--JSONWEBTOKEN (herramienta de creación de tokens para archivos en formato JSON)
-	-Versión: 9.0.0
-	-Doc: https://www.npmjs.com/package/jsonwebtoken 
-
--BCRYPTJS (herramienta para cifrar contraseñas -hashearlas)
-	-Versión:  2.4.3
-	-Doc: https://www.npmjs.com/package/bcryptjs 
-
--CORS (recurso que usamos para que al trabajar en modo local el backend .Evita que las peticiones a las APIS no lancen errores  al ser llamadas desde el frontend que a su vez, tambien lanza dichas peticiones en local. Una vez el backend se despliega, ya no es necesario usar esta dependencia)
-	-Versión: 2.8.5
-	-Doc: https://www.npmjs.com/package/cors 
-
--NODEMAILER (módulo para el evío de mails)
-	-Versión: 6.9.3
-	-Doc: https://nodemailer.com/about/ 
-	-Extra: https://www.npmjs.com/package/nodemailer 
-
--NODEMON (dependencia de desarrollo usada para evitar tener que levantar el servidor tras efectuar cambios en el código)
-	-Versión: 2.0.22
-	-Doc: https://www.npmjs.com/package/nodemon 
-
-
-
+>* [*GiTHub*](https://github.com/) - Plataforma de control de versiones de código. (Versión: no disponible)
 
 >* [*TRELLO*](https://trello.com/) - Planificador de tareas (Versión: no disponible)
 >* [*POSTMAN*](https://www.postman.com/) - Software para probar y documentar endpoints (Versión: 10.13.5)
