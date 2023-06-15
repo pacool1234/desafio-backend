@@ -39,9 +39,8 @@
 ***
 # SWAGGER
 ## DOCUMENTACIÓN
-[⬆️](#índice)
-![](./assets/TSN_Swagger_1.jpg)
->Por problemas en el despliegue de la API 
+
+>La documentación de los endpoints de la API se ha hecho en este documento por la incompatibilidad citada más abajo. 
 
 > __Note__
 No es posible proporcionar ningún vínculo de testing de SWAGGER porque el despliegue en railway creaba problemas con el archivo *basicInfo.js*
@@ -50,8 +49,8 @@ El departamento de Ciberseguridad requiere que se cree una base de datos paralel
 ***
 # MONGODB Atlas
 ## Vista del CLÚSTER que contiene la base de datos que nutre AGORA
-[⬆️](#índice)
-![](./assets/TSN_Atlas_1.jpg)
+
+![](./assets/BK_Mongo.jpg)
 
 ***
 # ENDPOINTS de la API
