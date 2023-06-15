@@ -558,7 +558,7 @@ const UserController = {
 
   async addContact(req, res) {
     try {
-      await User.findByIdAndUpdate(req.user._id, {
+      const res = await User.findByIdAndUpdate(req.user._id, {
         $push: {
           contacts: req.body.userId,
         },
@@ -566,6 +566,7 @@ const UserController = {
 
       res.send({
         message: `User with ID: ${req.body.userId} added to contacts`,
+        res
       });
     } catch (error) {
       console.error(error);
