@@ -249,15 +249,17 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ2NTJlZDhjNjQzZGM1YWJlOGViNDY
 >* [*ATLAS (MONGODB)*](https://cloud.mongodb.com/) - Alojamiento de MONGODB para la/s base/s de datos empleando clústers (Versión: 6.0)
 >* [*BCRYPT*](https://code.visualstudio.com/) - Dependencia para la encriptación y comprobación de contraseñas (Versión: 1.4.3)
 >* [*JASON WEB TOKEN*](https://code.visualstudio.com/) - Dependencia para generar tokens de acceso (Versión: 9.0.0)
->* [*DOTENV*](https://code.visualstudio.com/) - Dependencia para establecer las variables globales y poder desplegar (Versión: 16.0.3)
->* [*VERCEL*](https://code.visualstudio.com/) - Plataforma para el despliegue del servidor(Versión: 1.75.1)
->* [*Live Server*](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) -Extension de Visual Studio para check durante la fase de desarrollo y en entorno local.
+>* [*DOTENV*](https://www.npmjs.com/package/dotenv) - Herramienta para asignar variables de entorno a valores que queremos ocultar -como el puerto, clave de token etc, y evitar que se suban a repositorios /publicarlas  (Versión: 16.1.3)
+>* [*DOTENV *](https://github.com/expressjs/multer) - Plataforma para el despliegue del servidor(Versión: 1.75.1)
+>* [*Multer*](https://github.com/expressjs/multer) -Middleware que permite la subida de documentos e imágenes a través de formulario.(Versión: 6.9.3)
+>* [*CORS*](https://www.npmjs.com/package/cors ) - recurso que usamos para que al trabajar en modo local el backend .Evita que las peticiones a las APIS no lancen errores  al ser llamadas desde el frontend que a su vez, tambien lanza dichas peticiones en local. Una vez el backend se despliega, ya no es necesario usar esta dependencia(Versión: 2.8.5)
+
 
 ***
 # Autores ✒️
 [⬆️](#índice)
 
-**Guillermo Soler** - | *Coding* | - [GuilleSoler87](https://github.com/GuilleSoler87
+**Guillermo Soler** - | *Coding* | - [GuilleSoler87](https://github.com/GuilleSoler87)
 
 **Francisco Niederleytner
 ** - | *Coding* | - [pacool1234](https://github.com/pacool1234)
